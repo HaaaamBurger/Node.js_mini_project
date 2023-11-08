@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from "express";
 
 import { ObjectSchema } from "joi";
 import { ApiError } from "../errors";
-import { EAccountStatus } from "../enums";
-
+import { EAccountStatus, EGuerySort } from "../enums";
+import { IUserQuery } from "../interfaces";
 
 class GeneralMiddleware {
     public isAccountStatus(status: EAccountStatus) {
@@ -21,6 +21,17 @@ class GeneralMiddleware {
                 }
                 req.body = value;
                 next();
+            } catch (e) {
+                next(e);
+            }
+        }
+    }
+
+    public isQueryValid(limit: number, sortedBy: EGuerySort) {
+        return (req: Request, res: Response, next: NextFunction) => {
+            try {
+                const query = req.query;
+                console.log(query);
             } catch (e) {
                 next(e);
             }
