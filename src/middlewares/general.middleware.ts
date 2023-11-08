@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { EAccountStatus } from "../../enums";
+
 import { ObjectSchema } from "joi";
-import { ApiError } from "../../errors";
+import { ApiError } from "../errors";
+import { EAccountStatus } from "../enums";
+
 
 class GeneralMiddleware {
     public isAccountStatus(status: EAccountStatus) {
