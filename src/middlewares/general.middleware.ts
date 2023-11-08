@@ -16,14 +16,11 @@ class GeneralMiddleware {
         return (req: Request, res: Response, next: NextFunction): void => {
             try {
                 const { value, error } = validator.validate(req.body);
-
                 if (error) {
                     throw new ApiError(error.message, 400);
                 }
-
                 req.body = value;
                 next();
-
             } catch (e) {
                 next(e);
             }

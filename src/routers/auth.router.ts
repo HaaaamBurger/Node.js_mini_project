@@ -7,9 +7,14 @@ import { generalMiddleware, userMiddleware } from "../middlewares";
 const router = Router();
 
 router.post("/register",
-    generalMiddleware.isBodyValid(UserValidator.register),
+    generalMiddleware.isBodyValid(UserValidator.registerIn),
     userMiddleware.isEmailUniq,
-    authController.register
+    authController.registerIn
 );
+
+router.post("/login",
+    generalMiddleware.isBodyValid(UserValidator.logIn),
+    authController.logIn
+    );
 
 export const authRouter = router;

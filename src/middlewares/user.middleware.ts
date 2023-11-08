@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import { ApiError } from "../errors";
 import { userRepository } from "../repositories";
 
-
 class UserMiddleware {
     public async isEmailUniq(req: Request, res: Response, next: NextFunction) {
         try {

@@ -8,5 +8,8 @@ export const configs = {
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
     AWS_S3_REGION: process.env.AWS_S3_REGION,
     AWS_S3_BUCKET: process.env.AWS_S3_BUCKET,
-    API_DATABASE_URI: process.env.API_DATABASE_URI
+    API_DATABASE_URI: process.env.API_DATABASE_URI,
+    SECRET_SALT: process.env.SECRET_SALT,
+    JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
+    JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET
 };

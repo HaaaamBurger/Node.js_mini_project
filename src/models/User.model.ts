@@ -15,7 +15,7 @@ const UserModel = new Schema({
         type: Number,
         required: true,
     },
-    acount_status: {
+    account_status: {
         type: String,
         enum: EAccountStatus,
         required: true,
@@ -31,10 +31,10 @@ const UserModel = new Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
 },
     {
-        timestamps: true,
+        timestamps: { createdAt: true, updatedAt: false },
         versionKey: false
     })
 
