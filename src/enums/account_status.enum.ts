@@ -1,4 +1,4 @@
 export enum EAccountStatus {
-    Basic = "basic",
-    Premium = "premium"
+    BASIC = "basic",
+    PREMIUM = "premium"
 }

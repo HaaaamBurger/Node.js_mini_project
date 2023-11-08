@@ -1,13 +1,12 @@
 import joi from "joi";
 import { regexConstants } from "../constants";
+import { EAccountRoles } from "../enums";
 
 export class UserValidator {
-    static login(login: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-        throw new Error("Method not implemented.");
-    }
     static username = joi.string().min(2).max(20).trim();
     static surname = joi.string().min(2).max(28).trim();
     static age = joi.number().min(18).max(99);
+    static account_role = joi.valid(...Object.values(EAccountRoles))
     static email = joi.string().regex(regexConstants.EMAIL).trim();
     static password = joi.string().regex(regexConstants.PASSWORD).trim();
 
@@ -15,6 +14,7 @@ export class UserValidator {
         username: this.username.required(),
         surname: this.surname.required(),
         age: this.age.required(),
+        account_role: this.account_role.required(),
         email: this.email.required(),
         password: this.password.required(),
     })
