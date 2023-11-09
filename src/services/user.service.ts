@@ -1,3 +1,4 @@
+import { EAccountStatus } from "../enums";
 import { ApiError } from "../errors";
 import { IUser } from "../interfaces";
 import { User } from "../models";
@@ -36,6 +37,14 @@ class UserService {
             throw new ApiError(e.message, e.status);
         }
     };
+
+    public async reBlock(id: string, user: IUser): Promise<void> {
+        try {
+            await User.findByIdAndUpdate(id, {account_status: user.account_status === EAccountStatus.ACTIVE ? EAccountStatus.BLOCKED : EAccountStatus.ACTIVE});
+        } catch (e) {
+            throw new ApiError(e.message, e.status);
+        }
+    }
 
 }
 

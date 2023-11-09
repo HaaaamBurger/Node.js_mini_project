@@ -30,7 +30,8 @@ class AuthService {
             const tokenPair = tokenService.generateToken({
                 _userId: user.id ,
                 email: credentials.email,
-                account_status: user.account_status
+                account_status: user.account_status,
+                account_role: user.account_role,
             });
             return tokenPair;
         } catch (e) {
@@ -43,7 +44,8 @@ class AuthService {
             const tokenPair = tokenService.generateToken({
                 _userId: tokenPayload._userId,
                 email: tokenPayload.email,
-                account_status: tokenPayload.account_status
+                account_status: tokenPayload.account_status,
+                account_role: tokenPayload.account_role
             })
 
             return tokenPair;

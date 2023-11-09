@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { authMiddleware, generalMiddleware, userMiddleware } from "../middlewares";
+
+import { authMiddleware, generalMiddleware, rolesMiddleware, userMiddleware } from "../middlewares";
 import { userController } from "../controllers";
 import { UserValidator } from "../validators";
+import { ESpecialAccountRoles } from "../enums";
 
 
 const router = Router();
@@ -9,28 +11,48 @@ const router = Router();
 router.get(
     "/",
     authMiddleware.checkAccessToken,
+    rolesMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
     userController.getAllUsers,
 );
 
 router.get(
     "/:id",
     authMiddleware.checkAccessToken,
+    rolesMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
     generalMiddleware.isIdValid("id"),
     userMiddleware.isUserExists,
     userController.getUserById,
 );
 
+router.post(
+    "/reblock/:id",
+    rolesMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
+    generalMiddleware.isIdValid("id"),
+    userMiddleware.isUserExists,
+    userController.reBlock
+);
+
+// router.post(
+//     "/rechange/:id",
+//     rolesMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
+//     generalMiddleware.isIdValid("id"),
+//     userMiddleware.isUserExists,
+// )
+
+
 router.delete(
     "/:id",
     authMiddleware.checkAccessToken,
+    rolesMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
     generalMiddleware.isIdValid("id"),
     userMiddleware.isUserExists,
     userController.deleteUserById,
 );
 
-router.put("" +
+router.put(
     "/:id",
     authMiddleware.checkAccessToken,
+    rolesMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
     generalMiddleware.isIdValid("id"),
     generalMiddleware.isBodyValid(UserValidator.updateUser),
     userMiddleware.isUserExists,

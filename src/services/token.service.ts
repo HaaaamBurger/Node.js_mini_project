@@ -1,10 +1,10 @@
 import * as jwt from "jsonwebtoken";
-import { ITokenPayload } from "../interfaces";
+import {ITokenPair, ITokenPayload } from "../interfaces";
 import { configs } from "../configs";
 import { ApiError } from "../errors";
 
 class TokenService {
-    public generateToken(payload: ITokenPayload) {
+    public generateToken(payload: ITokenPayload): ITokenPair {
         const accessToken = jwt.sign(payload, configs.JWT_ACCESS_SECRET, {
             expiresIn: "1h"
         });

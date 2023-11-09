@@ -50,6 +50,19 @@ class UserController {
         }
     };
 
+    public async reBlock(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const { id } = req.params;
+            const user =  req.res.locals.user;
+
+            await userService.reBlock(id, user);
+
+            res.status(200).json("Account status changed");
+        } catch (e) {
+            next(e);
+        }
+    }
+
 
 };
 
