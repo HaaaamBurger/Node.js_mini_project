@@ -1,49 +1,42 @@
 import { ApiError } from "../errors";
-import {IAdvertisement, ITokenPayload, IUser } from "../interfaces";
-import {Advertisement, User } from "../models";
+import { IUser } from "../interfaces";
+import { User } from "../models";
 
 class UserService {
-    public async getAll(): Promise<IUser[]> {
+    public async getAllUsers(): Promise<IUser[]> {
         try {
             return await User.find();
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }
-    }
+    };
 
-    public async createAdvertisement(advertisement: IAdvertisement, tokenPayload: ITokenPayload): Promise<void> {
+    public async getUserById(id: string): Promise<IUser> {
         try {
-            await Advertisement.create({...advertisement, owner: tokenPayload._userId});
+            return await User.findById(id);
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }
-    }
+    };
 
-    public async getAdvertisementById(id: string): Promise<IAdvertisement> {
+    public async deleteUserById(id: string): Promise<void> {
         try {
-            return await Advertisement.findById(id).populate("owner")
+            await User.findByIdAndDelete(id);
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }
-    }
+    };
 
-    public async deleteAdvertisementById(id: string): Promise<void> {
+    public async updateUserById(body: Partial<IUser>, id: string): Promise<IUser> {
         try {
-            await Advertisement.findByIdAndDelete(id);
-        } catch (e) {
-            throw new ApiError(e.message, e.status);
-        }
-    }
-
-    public async updateAdvertisementById(body: Partial<IUser>, id: string) {
-        try {
-            return await Advertisement.findByIdAndUpdate(id, body, {
+            return await User.findByIdAndUpdate(id, body, {
                 returnDocument: "after"
             })
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }
-    }
+    };
+
 }
 
 export const userService = new UserService();

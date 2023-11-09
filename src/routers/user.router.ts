@@ -1,43 +1,41 @@
 import { Router } from "express";
-import {advertisementMiddleware, authMiddleware, generalMiddleware } from "../middlewares";
+import { authMiddleware, generalMiddleware, userMiddleware } from "../middlewares";
 import { userController } from "../controllers";
-import { AdvertisementValidator } from "../validators";
+import { UserValidator } from "../validators";
+
 
 const router = Router();
 
 router.get(
     "/",
     authMiddleware.checkAccessToken,
-    userController.getAllUsers
+    userController.getAllUsers,
 );
-router.post(
-    "/advertisement",
-    authMiddleware.checkAccessToken,
-    generalMiddleware.isBodyValid(AdvertisementValidator.createAdvertisement),
-    userController.createAdvertisement
-);
+
 router.get(
-    "/advertisement/:adId",
+    "/:id",
     authMiddleware.checkAccessToken,
-    generalMiddleware.isIdValid("adId"),
-    advertisementMiddleware.isAdvertisementExists,
-    userController.getAdvertisementById
+    generalMiddleware.isIdValid("id"),
+    userMiddleware.isUserExists,
+    userController.getUserById,
 );
 
 router.delete(
-    "/advertisement/:adId",
+    "/:id",
     authMiddleware.checkAccessToken,
-    generalMiddleware.isIdValid("adId"),
-    advertisementMiddleware.isAdvertisementExists,
-    userController.deleteAdvertisementById
+    generalMiddleware.isIdValid("id"),
+    userMiddleware.isUserExists,
+    userController.deleteUserById,
 );
+
 router.put("" +
-    "/advertisement/:adId",
+    "/:id",
     authMiddleware.checkAccessToken,
-    generalMiddleware.isBodyValid(AdvertisementValidator.updateAdvertisement),
-    generalMiddleware.isIdValid("adId"),
-    advertisementMiddleware.isAdvertisementExists,
-    userController.updateAdvertisementById,
+    generalMiddleware.isIdValid("id"),
+    generalMiddleware.isBodyValid(UserValidator.updateUser),
+    userMiddleware.isUserExists,
+    userController.updateUserById,
 );
+
 
 export const userRouter = router;

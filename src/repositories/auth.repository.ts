@@ -7,7 +7,7 @@ class AuthRepository {
     public async registerIn(body: IUser): Promise<void> {
         try {
             const hashedPassword = await passwordService.hash(body.password);
-            await User.create({...body, password: hashedPassword});
+            await User.create({...body ,password: hashedPassword});
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }

@@ -10,8 +10,6 @@ export class UserValidator {
     static email = joi.string().regex(regexConstants.EMAIL).trim();
     static password = joi.string().regex(regexConstants.PASSWORD).trim();
 
-
-
     static registerIn = joi.object({
         username: this.username.required(),
         surname: this.surname.required(),
@@ -24,5 +22,14 @@ export class UserValidator {
     static logIn = joi.object({
         email: this.email.required(),
         password: this.password.required(),
+    })
+
+    static updateUser = joi.object({
+        username: this.username,
+        surname: this.surname,
+        age: this.age,
+        account_role: this.account_role,
+        email: this.email,
+        password: this.password,
     })
 }

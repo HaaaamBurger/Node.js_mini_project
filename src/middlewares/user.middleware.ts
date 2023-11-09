@@ -18,10 +18,10 @@ class UserMiddleware {
     }
     public async isUserExists(req: Request, res: Response, next: NextFunction) {
         try {
-            const { adId } = req.params;
-            const user = await User.findById(adId);
+            const { id } = req.params;
+            const user = await User.findById(id);
             if (!user) {
-                throw new ApiError("No such a user",401);
+                throw new ApiError("No such a user", 401);
             }
 
             req.res.locals.user = user;

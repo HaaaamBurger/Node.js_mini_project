@@ -1,5 +1,6 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 import { EAccountRoles, EAccountStatus, EAccountTypes } from "../enums";
+import { Advertisement } from "./Advertisement.model";
 
 
 const UserModel = new Schema({
@@ -42,7 +43,7 @@ const UserModel = new Schema({
     password: {
         type: String,
         required: true,
-    },
+    }
 },
     {
         timestamps: { createdAt: true, updatedAt: false },

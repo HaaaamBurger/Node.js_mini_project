@@ -5,62 +5,52 @@ import {IAdvertisement, IUser } from "../interfaces";
 class UserController {
     public async getAllUsers(req: Request, res: Response, next: NextFunction): Promise<Response<IUser[]>> {
         try {
-            const users = await userService.getAll();
+            const users = await userService.getAllUsers();
 
             return res.json(users);
         } catch (e) {
             next(e);
         }
-    }
-    public async createAdvertisement(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            const tokenPayload = req.res.locals.tokenPayload;
-            const advertisement = req.body;
+    };
 
-            await userService.createAdvertisement(advertisement, tokenPayload);
-
-            res.status(201).json("Advertisement created");
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    public async getAdvertisementById(req: Request, res: Response, next: NextFunction): Promise<Response<IAdvertisement>> {
+    public async getUserById(req: Request, res: Response, next: NextFunction): Promise<Response<IUser>> {
         try {
             const { adId } = req.params;
 
-            const advertisement = await userService.getAdvertisementById(adId);
+            const advertisement = await userService.getUserById(adId);
 
             return res.status(200).json(advertisement);
         } catch (e) {
             next(e);
         }
-    }
+    };
 
-    public async deleteAdvertisementById(req: Request, res: Response, next: NextFunction): Promise<void> {
+    public async deleteUserById(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const { adId } = req.params;
+            const { id } = req.params;
 
-            await userService.deleteAdvertisementById(adId);
+            await userService.deleteUserById(id);
 
-            res.status(200).json("Advertisement deleted successfully");
+            res.status(200).json("User successfully deleted");
         } catch (e) {
             next(e);
         }
-    }
+    };
 
-    public async updateAdvertisementById(req: Request, res: Response, next: NextFunction): Promise<void> {
+    public async updateUserById(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const body = req.body;
-            const { adId } = req.params;
+            const { id } = req.params;
 
-            const user = await userService.updateAdvertisementById(body, adId);
+            const advertisement = await userService.updateUserById(body, id);
 
-            res.status(201).json(user);
+            res.status(201).json(advertisement);
         } catch (e) {
             next(e);
         }
-    }
-}
+    };
+
+
+};
 
 export const userController = new UserController();
