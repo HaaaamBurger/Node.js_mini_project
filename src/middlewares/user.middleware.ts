@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiError } from "../errors";
 import { userRepository } from "../repositories";
+import { User } from "../models";
 
 class UserMiddleware {
     public async isEmailUniq(req: Request, res: Response, next: NextFunction) {
@@ -15,6 +16,22 @@ class UserMiddleware {
             next(e);
         }
     }
+    public async isUserExists(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { adId } = req.params;
+            const user = await User.findById(adId);
+            if (!user) {
+                throw new ApiError("No such a user",401);
+            }
+
+            req.res.locals.user = user;
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
+
 }
 
 export const userMiddleware = new UserMiddleware();

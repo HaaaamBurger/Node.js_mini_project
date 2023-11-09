@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-
 import { ObjectSchema } from "joi";
 import { ApiError } from "../errors";
 import { EAccountStatus } from "../enums";
@@ -42,6 +41,7 @@ class GeneralMiddleware {
             }
         }
     }
+
 }
 
 export const generalMiddleware = new GeneralMiddleware();
