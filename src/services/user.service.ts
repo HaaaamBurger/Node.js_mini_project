@@ -1,4 +1,4 @@
-import { EAccountStatus } from "../enums";
+import { EAccountStatus, ESpecialAccountRoles } from "../enums";
 import { ApiError } from "../errors";
 import { IUser } from "../interfaces";
 import { User } from "../models";
@@ -45,6 +45,14 @@ class UserService {
             throw new ApiError(e.message, e.status);
         }
     }
+
+    // public async reChange(role: ESpecialAccountRoles, id: string) {
+    //     try {
+    //
+    //     } catch (e) {
+    //
+    //     }
+    // }
 
 }
 

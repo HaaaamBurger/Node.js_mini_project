@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { userService } from "../services";
-import {IAdvertisement, IUser } from "../interfaces";
+import { IUser } from "../interfaces";
 
 class UserController {
     public async getAllUsers(req: Request, res: Response, next: NextFunction): Promise<Response<IUser[]>> {
@@ -53,23 +53,28 @@ class UserController {
     public async reBlock(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const { id } = req.params;
+            console.log("reBlock", id);
             const user =  req.res.locals.user;
 
             await userService.reBlock(id, user);
 
-            res.status(200).json("Account status changed");
+            res.status(200).json("Account status has changed");
         } catch (e) {
             next(e);
         }
     }
 
-    public async reChange(req: Request, res: Response, next: NextFunction) {
-        try {
-            console.log(req.params)
-        } catch (e) {
-
-        }
-    }
+    // public async reChange(req: Request, res: Response, next: NextFunction) {
+    //     try {
+    //         const { role, id } = req.params;
+    //
+    //         await userService.reChange(role, id);
+    //
+    //         res.status(200).json("Account role has changed");
+    //     } catch (e) {
+    //         next(e);
+    //     }
+    // }
 
 };
 
