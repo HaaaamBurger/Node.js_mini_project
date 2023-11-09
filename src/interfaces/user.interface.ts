@@ -6,7 +6,7 @@ export interface IUser extends Document{
     username: string;
     surname: string;
     age: number;
-    acount_status: EAccountStatus;
+    account_status: EAccountStatus;
     account_role: EAccountRoles
     email: string;
     password: string;

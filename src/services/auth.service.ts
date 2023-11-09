@@ -25,7 +25,7 @@ class AuthService {
                 throw new ApiError("Invalid credentials provided", 401);
             }
 
-            const tokenPair = tokenService.generateToken({ _userId: user.id ,email: credentials.email, account_status: user.acount_status});
+            const tokenPair = tokenService.generateToken({ _userId: user.id ,email: credentials.email, account_status: user.account_status});
             return tokenPair;
         } catch (e) {
             throw new ApiError(e.message, e.status);
