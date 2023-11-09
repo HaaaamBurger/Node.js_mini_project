@@ -1,6 +1,7 @@
 import { ApiError } from "../errors";
 import {ITokenPair, ITokenPayload, IUser, TUserCredentials } from "../interfaces";
-import { authRepository, userRepository } from "../repositories";
+import { User } from "../models";
+import { userRepository } from "../repositories";
 import { passwordService } from "./password.service";
 import { tokenService } from "./token.service";
 
@@ -8,7 +9,8 @@ import { tokenService } from "./token.service";
 class AuthService {
     public async registerIn(body: IUser): Promise<void> {
         try {
-            await authRepository.registerIn(body);
+            const hashedPassword = await passwordService.hash(body.password);
+            await User.create({...body ,password: hashedPassword});
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }

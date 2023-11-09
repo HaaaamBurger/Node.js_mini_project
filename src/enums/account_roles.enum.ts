@@ -4,6 +4,8 @@ export enum EAccountRoles {
 }
 
 export enum ESpecialAccountRoles {
+    BUYER = "buyer",
+    SELLER = "seller",
     MANAGER = "manager",
     ADMIN = "admin",
 }
