@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { ObjectSchema } from "joi";
 import { ApiError } from "../errors";
-import { EAccountStatus } from "../enums";
+import { EAccountTypes } from "../enums";
 import mongoose from "mongoose";
 
 class GeneralMiddleware {
-    public isAccountStatus(status: EAccountStatus) {
+    public isAccountStatus(status: EAccountTypes) {
         return (req: Request, res: Response, next: NextFunction) => {
 
         }
