@@ -24,7 +24,8 @@ router.get(
     userController.getUserById,
 );
 
-router.post(
+
+router.put(
     "/reblock/:id",
     rolesMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
     generalMiddleware.isIdValid("id"),
@@ -32,13 +33,13 @@ router.post(
     userController.reBlock
 );
 
-// router.post(
+// router.put(
 //     "/rechange/:id",
 //     rolesMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
 //     generalMiddleware.isIdValid("id"),
 //     userMiddleware.isUserExists,
-// )
-
+//     userController.reChange
+// );
 
 router.delete(
     "/:id",

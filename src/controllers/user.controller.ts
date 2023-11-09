@@ -63,6 +63,13 @@ class UserController {
         }
     }
 
+    public async reChange(req: Request, res: Response, next: NextFunction) {
+        try {
+            console.log(req.params)
+        } catch (e) {
+
+        }
+    }
 
 };
 
