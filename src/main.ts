@@ -12,7 +12,7 @@ main.use(express.json());
 main.use(express.urlencoded({extended: true}));
 
 main.use("/auth", authRouter);
-main.use("/users", userRouter)
+main.use("/users", userRouter);
 
 main.use((error: ApiError, req: Request, res: Response, next: NextFunction) => {
     const status = error.status || 500;

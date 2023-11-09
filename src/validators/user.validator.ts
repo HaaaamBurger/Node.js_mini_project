@@ -10,6 +10,8 @@ export class UserValidator {
     static email = joi.string().regex(regexConstants.EMAIL).trim();
     static password = joi.string().regex(regexConstants.PASSWORD).trim();
 
+
+
     static registerIn = joi.object({
         username: this.username.required(),
         surname: this.surname.required(),
