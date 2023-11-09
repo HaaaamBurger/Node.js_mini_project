@@ -1,5 +1,5 @@
 import { ApiError } from "../errors";
-import {ITokenPair, IUser, TUserCredentials } from "../interfaces";
+import {ITokenPair, ITokenPayload, IUser, TUserCredentials } from "../interfaces";
 import { authRepository, userRepository } from "../repositories";
 import { passwordService } from "./password.service";
 import { tokenService } from "./token.service";
@@ -25,7 +25,25 @@ class AuthService {
                 throw new ApiError("Invalid credentials provided", 401);
             }
 
-            const tokenPair = tokenService.generateToken({ _userId: user.id ,email: credentials.email, account_status: user.account_status});
+            const tokenPair = tokenService.generateToken({
+                _userId: user.id ,
+                email: credentials.email,
+                account_status: user.account_status
+            });
+            return tokenPair;
+        } catch (e) {
+            throw new ApiError(e.message, e.status);
+        }
+    }
+
+    public async refreshIn(tokenPayload: ITokenPayload): Promise<ITokenPair> {
+        try {
+            const tokenPair = tokenService.generateToken({
+                _userId: tokenPayload._userId,
+                email: tokenPayload.email,
+                account_status: tokenPayload.account_status
+            })
+
             return tokenPair;
         } catch (e) {
             throw new ApiError(e.message, e.status);

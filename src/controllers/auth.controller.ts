@@ -20,6 +20,18 @@ class AuthController {
             next(e);
         }
     }
+
+    public async refreshIn(req: Request, res: Response, next: NextFunction): Promise<Response<ITokenPair>> {
+        try {
+            const tokenPayload = req.res.locals.tokenPayload;
+
+            const tokenPair = await authService.refreshIn(tokenPayload);
+
+            return res.json(tokenPair);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 export const authController = new AuthController();
