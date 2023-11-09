@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { EAccountRoles, EAccountTypes } from "../enums";
+import { EAccountRoles, EAccountStatus, EAccountTypes } from "../enums";
 
 
 const UserModel = new Schema({
@@ -18,11 +18,14 @@ const UserModel = new Schema({
     account_type: {
         type: String,
         enum: EAccountTypes,
+        default: EAccountTypes.BASIC,
         required: true,
-        default: EAccountTypes.BASIC
     },
     account_status: {
-
+        type: String,
+        enum: EAccountStatus,
+        default: EAccountStatus.ACTIVE,
+        required: true
     },
     account_role: {
         type: String,
