@@ -2,7 +2,6 @@ import { model, Schema, Types } from "mongoose";
 import { EAccountRoles, EAccountStatus, EAccountTypes } from "../enums";
 import { Advertisement } from "./Advertisement.model";
 
-
 const UserModel = new Schema({
     username: {
         type: String,
@@ -14,6 +13,21 @@ const UserModel = new Schema({
     },
     age: {
         type: Number,
+        required: true,
+    },
+    phone_number: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        lowercase: true
+    },
+    password: {
+        type: String,
         required: true,
     },
     account_type: {
@@ -32,17 +46,6 @@ const UserModel = new Schema({
         type: String,
         enum: EAccountRoles,
         required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-        lowercase: true
-    },
-    password: {
-        type: String,
-        required: true,
     }
 },
     {

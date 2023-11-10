@@ -6,9 +6,10 @@ export class UserValidator {
     static username = joi.string().min(2).max(20).trim();
     static surname = joi.string().min(2).max(28).trim();
     static age = joi.number().min(18).max(99);
-    static account_role = joi.valid(...Object.values(EAccountRoles))
+    static phone_number = joi.string().regex(regexConstants.PHONE_NUMBER);
     static email = joi.string().regex(regexConstants.EMAIL).trim();
     static password = joi.string().regex(regexConstants.PASSWORD).trim();
+    static account_role = joi.valid(...Object.values(EAccountRoles))
     static special_role = joi.valid(...Object.values(ESpecialAccountRoles));
 
 
@@ -16,9 +17,10 @@ export class UserValidator {
         username: this.username.required(),
         surname: this.surname.required(),
         age: this.age.required(),
-        account_role: this.account_role.required(),
+        phone_number: this.phone_number.required(),
         email: this.email.required(),
         password: this.password.required(),
+        account_role: this.account_role.required(),
     })
 
     static logIn = joi.object({
@@ -30,6 +32,7 @@ export class UserValidator {
         username: this.username,
         surname: this.surname,
         age: this.age,
+        phone_number: this.phone_number,
         account_role: this.account_role,
         email: this.email,
         password: this.password,

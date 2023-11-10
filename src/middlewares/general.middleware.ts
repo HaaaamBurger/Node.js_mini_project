@@ -3,7 +3,6 @@ import { ObjectSchema } from "joi";
 import { ApiError } from "../errors";
 import mongoose from "mongoose";
 import { tokenService } from "../services";
-import { ESpecialAccountRoles } from "../enums";
 
 class GeneralMiddleware {
     public isBodyValid(validator: ObjectSchema) {
@@ -47,11 +46,12 @@ class GeneralMiddleware {
                 const accessToken = req.get("Authorization");
                 const tokenPayload = tokenService.checkToken(accessToken, "access");
 
-                if (!(tokenPayload.account_role === ESpecialAccountRoles.MANAGER || tokenPayload.account_role === ESpecialAccountRoles.ADMIN)) {
+                if (!allowedToManage.includes(tokenPayload.account_role)) {
                     if (param !== tokenPayload._userId.toString()) {
                         throw new ApiError("You cannot manage this account", 400);
                     }
                 }
+
                 next();
             } catch (e) {
                 next(e);

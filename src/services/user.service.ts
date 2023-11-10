@@ -6,7 +6,7 @@ import { User } from "../models";
 class UserService {
     public async getAllUsers(): Promise<IUser[]> {
         try {
-            return await User.find();
+            return await User.find().populate("");
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }
