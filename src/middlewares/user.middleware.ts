@@ -32,6 +32,14 @@ class UserMiddleware {
         }
     }
 
+    public async isUserBanned() {
+        try {
+            
+        } catch (e) {
+            
+        }
+    }
+
 }
 
 export const userMiddleware = new UserMiddleware();
