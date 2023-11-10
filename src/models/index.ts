@@ -1,2 +1,3 @@
 export * from "./User.model";
 export * from "./Advertisement.model";
+export * from "./Currency.model";
