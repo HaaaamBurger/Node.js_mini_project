@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { ApiError } from "../errors";
 import { userRepository } from "../repositories";
 import { User } from "../models";
+import { tokenService } from "../services";
+import { EAccountStatus } from "../enums";
 
 class UserMiddleware {
     public async isEmailUniq(req: Request, res: Response, next: NextFunction) {
@@ -32,11 +34,18 @@ class UserMiddleware {
         }
     }
 
-    public async isUserBanned() {
+    public async isUserBlocked(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            
+            const accessToken = req.get("Authorization");
+            const { account_status } = tokenService.checkToken(accessToken, "access");
+
+            if (account_status === EAccountStatus.BLOCKED) {
+                throw new ApiError("Account blocked", 403);
+            }
+
+            next();
         } catch (e) {
-            
+            next(e);
         }
     }
 

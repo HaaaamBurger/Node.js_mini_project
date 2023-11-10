@@ -11,6 +11,7 @@ const router = Router();
 router.get(
     "/",
     authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
     userController.getAllUsers,
 );
@@ -18,6 +19,7 @@ router.get(
 router.get(
     "/:id",
     authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
     generalMiddleware.isIdValid("id"),
     userMiddleware.isUserExists,
@@ -27,6 +29,8 @@ router.get(
 
 router.put(
     "/reblock/:id",
+    authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
     generalMiddleware.isIdValid("id"),
     userMiddleware.isUserExists,
@@ -35,6 +39,8 @@ router.put(
 
 router.put(
     "/rechange/:id",
+    authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
     generalMiddleware.isIdValid("id"),
     generalMiddleware.isBodyValid(UserValidator.updateRole),
@@ -45,6 +51,7 @@ router.put(
 router.delete(
     "/:id",
     authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
     generalMiddleware.isIdValid("id"),
     userMiddleware.isUserExists,
@@ -54,6 +61,7 @@ router.delete(
 router.put(
     "/:id",
     authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
     generalMiddleware.isIdValid("id"),
     generalMiddleware.isBodyValid(UserValidator.updateUser),

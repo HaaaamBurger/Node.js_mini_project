@@ -32,6 +32,7 @@ class AuthService {
                 email: credentials.email,
                 account_status: user.account_status,
                 account_role: user.account_role,
+                account_type: user.account_type,
             });
             return tokenPair;
         } catch (e) {
@@ -45,7 +46,8 @@ class AuthService {
                 _userId: tokenPayload._userId,
                 email: tokenPayload.email,
                 account_status: tokenPayload.account_status,
-                account_role: tokenPayload.account_role
+                account_role: tokenPayload.account_role,
+                account_type: tokenPayload.account_type,
             })
 
             return tokenPair;

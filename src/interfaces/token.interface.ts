@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { EAccountStatus, ESpecialAccountRoles } from "../enums";
+import { EAccountStatus, EAccountTypes, ESpecialAccountRoles } from "../enums";
 
 export interface ITokenPair {
     accessToken: string;
@@ -10,5 +10,6 @@ export interface ITokenPayload {
     _userId: Types.ObjectId;
     email: string;
     account_status: EAccountStatus;
-    account_role: ESpecialAccountRoles
+    account_role: ESpecialAccountRoles;
+    account_type: EAccountTypes;
 }
