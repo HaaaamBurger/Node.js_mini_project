@@ -47,12 +47,11 @@ class GeneralMiddleware {
                 const accessToken = req.get("Authorization");
                 const tokenPayload = tokenService.checkToken(accessToken, "access");
 
-                if (tokenPayload.account_role === ESpecialAccountRoles.MANAGER || tokenPayload.account_role === ESpecialAccountRoles.ADMIN) {
-                    next();
-                } else if (param !== tokenPayload._userId.toHexString()) {
-                    throw new ApiError("You cannot manage this account", 400);
-                }
-
+                // if (!(tokenPayload.account_role === ESpecialAccountRoles.MANAGER || tokenPayload.account_role === ESpecialAccountRoles.ADMIN)) {
+                //     throw new ApiError("You cannot manage this account", 400);
+                // } else if (param !== tokenPayload._userId.toString()) {
+                //     throw new ApiError("You cannot manage this account", 400);
+                // }
                 next();
             } catch (e) {
                 next(e);
