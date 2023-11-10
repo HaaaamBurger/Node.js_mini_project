@@ -1,6 +1,6 @@
 import joi from "joi";
 import { regexConstants } from "../constants";
-import { EAccountRoles } from "../enums";
+import { EAccountRoles, ESpecialAccountRoles } from "../enums";
 
 export class UserValidator {
     static username = joi.string().min(2).max(20).trim();
@@ -9,6 +9,8 @@ export class UserValidator {
     static account_role = joi.valid(...Object.values(EAccountRoles))
     static email = joi.string().regex(regexConstants.EMAIL).trim();
     static password = joi.string().regex(regexConstants.PASSWORD).trim();
+    static special_role = joi.valid(...Object.values(ESpecialAccountRoles));
+
 
     static registerIn = joi.object({
         username: this.username.required(),
@@ -31,5 +33,8 @@ export class UserValidator {
         account_role: this.account_role,
         email: this.email,
         password: this.password,
+    })
+    static updateRole = joi.object({
+        special_role: this.special_role.required()
     })
 }

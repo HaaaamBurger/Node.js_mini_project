@@ -46,13 +46,13 @@ class UserService {
         }
     }
 
-    // public async reChange(role: ESpecialAccountRoles, id: string) {
-    //     try {
-    //
-    //     } catch (e) {
-    //
-    //     }
-    // }
+    public async reChange(id: string, role: ESpecialAccountRoles): Promise<void> {
+        try {
+            await User.findByIdAndUpdate(id, {account_role: role});
+        } catch (e) {
+            throw new ApiError(e.message, e.status);
+        }
+    }
 
 }
 

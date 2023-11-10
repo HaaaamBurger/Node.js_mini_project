@@ -33,13 +33,14 @@ router.put(
     userController.reBlock
 );
 
-// router.put(
-//     "/rechange/:role/:id",
-//     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
-//     generalMiddleware.isIdValid("id"),
-//     userMiddleware.isUserExists,
-//     userController.reChange
-// );
+router.put(
+    "/rechange/:id",
+    permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
+    generalMiddleware.isIdValid("id"),
+    generalMiddleware.isBodyValid(UserValidator.updateRole),
+    userMiddleware.isUserExists,
+    userController.reChange
+);
 
 router.delete(
     "/:id",

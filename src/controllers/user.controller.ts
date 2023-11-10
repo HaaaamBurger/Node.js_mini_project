@@ -64,17 +64,18 @@ class UserController {
         }
     }
 
-    // public async reChange(req: Request, res: Response, next: NextFunction) {
-    //     try {
-    //         const { role, id } = req.params;
-    //
-    //         await userService.reChange(role, id);
-    //
-    //         res.status(200).json("Account role has changed");
-    //     } catch (e) {
-    //         next(e);
-    //     }
-    // }
+    public async reChange(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const { id } = req.params;
+            const { special_role } = req.body;
+
+            await userService.reChange(id, special_role);
+
+            res.status(200).json("Account role has changed");
+        } catch (e) {
+            next(e);
+        }
+    }
 
 };
 
