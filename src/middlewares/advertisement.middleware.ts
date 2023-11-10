@@ -6,12 +6,13 @@ class AdvertisementMiddleware {
     public async isAdvertisementExists(req: Request, res: Response, next: NextFunction) {
         try {
             const { adId } = req.params;
-            const user = await Advertisement.findById(adId);
-            if (!user) {
+            const advertisement = await Advertisement.findById(adId);
+
+            if (!advertisement) {
                 throw new ApiError("No such an advertisement",401);
             }
 
-            req.res.locals.user = user;
+            req.res.locals.advertisement = advertisement;
 
             next();
         } catch (e) {
