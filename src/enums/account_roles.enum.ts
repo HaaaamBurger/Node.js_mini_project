@@ -9,3 +9,8 @@ export enum ESpecialAccountRoles {
     MANAGER = "manager",
     ADMIN = "admin",
 }
+
+// export enum EPremiumAccountRoles {
+//     MANAGER = "manager",
+//     ADMIN = "admin",
+// }

@@ -1,16 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { ObjectSchema } from "joi";
 import { ApiError } from "../errors";
-import { EAccountTypes } from "../enums";
 import mongoose from "mongoose";
+import { tokenService } from "../services";
+import { ESpecialAccountRoles } from "../enums";
 
 class GeneralMiddleware {
-    public isAccountStatus(status: EAccountTypes) {
-        return (req: Request, res: Response, next: NextFunction) => {
-
-        }
-    }
-
     public isBodyValid(validator: ObjectSchema) {
         return (req: Request, res: Response, next: NextFunction): void => {
             try {
@@ -36,6 +31,26 @@ class GeneralMiddleware {
 
                 if (!mongoose.isObjectIdOrHexString(id)) {
                     throw new ApiError("Not valid ID", 400);
+                }
+
+                next();
+            } catch (e) {
+                next(e);
+            }
+        }
+    }
+
+    public isAllowToManage(param: string, allowedToManage: string[]) {
+        return (req: Request, res: Response, next: NextFunction) => {
+            try {
+                const { param } = req.params;
+                const accessToken = req.get("Authorization");
+                const tokenPayload = tokenService.checkToken(accessToken, "access");
+
+                if (tokenPayload.account_role === ESpecialAccountRoles.MANAGER || tokenPayload.account_role === ESpecialAccountRoles.ADMIN) {
+                    next();
+                } else if (param !== tokenPayload._userId.toHexString()) {
+                    throw new ApiError("You cannot manage this account", 400);
                 }
 
                 next();
