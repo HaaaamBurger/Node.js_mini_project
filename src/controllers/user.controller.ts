@@ -76,6 +76,19 @@ class UserController {
         }
     }
 
+    public async changeType(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.params;
+            const { account_type } = req.body;
+
+            await userService.changeType(id, account_type);
+
+            res.status(200).json("Account type has changed");
+        } catch (e) {
+            next(e);
+        }
+    }
+
 };
 
 export const userController = new UserController();

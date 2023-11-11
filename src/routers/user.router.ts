@@ -36,6 +36,17 @@ router.put(
 );
 
 router.put(
+    "/change-type/:id",
+    authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
+    permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
+    generalMiddleware.isIdValid("id"),
+    generalMiddleware.isBodyValid(UserValidator.updateType),
+    userMiddleware.isUserExists,
+    userController.changeType,
+)
+
+router.put(
     "/change-role/:id",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
@@ -47,7 +58,7 @@ router.put(
 );
 
 router.delete(
-    "/delete-user/:id",
+    "/delete-byId/:id",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
@@ -67,7 +78,7 @@ router.put(
     userController.updateUserById,
 );
 
-// router.put("/")
+
 
 
 export const userRouter = router;
