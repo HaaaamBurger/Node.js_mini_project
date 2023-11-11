@@ -31,9 +31,9 @@ class StatisticsService {
                 avg_price: {
                   city_avg: {
                       name: city,
-                      avg: averagePriceByCity[0].avg_price.toFixed(5)
+                      avg: `${averagePriceByCity[0].avg_price.toFixed(5)} $`
                   },
-                  country_avg: averageByCountry[0].avg_price.toFixed(5),
+                  country_avg: `${averageByCountry[0].avg_price.toFixed(5)} $`,
                 },
                 advertisement: adId,
             })
