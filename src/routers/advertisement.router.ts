@@ -75,5 +75,4 @@ router.put(
     advertisementController.updateAdvertisementById,
 );
 
-
 export const advertisementRouter = router;
