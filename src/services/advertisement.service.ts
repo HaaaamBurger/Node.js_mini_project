@@ -15,6 +15,7 @@ class AdvertisementService {
 
     public async getAdvertisementById(id: string): Promise<IAdvertisement> {
         try {
+            await advertisementRepository.viewsIncrement(id);
             return await Advertisement.findById(id).populate("owner", "_id email phone_number");
         } catch (e) {
             throw new ApiError(e.message, e.status);
@@ -70,7 +71,7 @@ class AdvertisementService {
 
     public async getUserAdvertisements(id: string): Promise<IAdvertisement[]> {
         try {
-            return await Advertisement.find({ owner: id });
+            return await Advertisement.find({ owner: id }).select("_id producer car_model year price");
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }

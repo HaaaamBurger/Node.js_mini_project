@@ -1,6 +1,6 @@
 import { ApiError } from "../errors";
 import { IExchnage } from "../interfaces";
-import { Currency } from "../models";
+import { Currency, Statistic } from "../models";
 
 
 class AdvertisementRepository {
@@ -31,7 +31,15 @@ class AdvertisementRepository {
        } catch (e) {
            throw new ApiError(e.message, e.status);
        }
-   } 
+   }
+
+   public async viewsIncrement(adId: string) {
+       try {
+           await Statistic.findOneAndUpdate({ advertisement: adId }, { $inc: { views: 1 } })
+       } catch (e) {
+           throw new ApiError(e.message, e.status);
+       }
+   }
 }
 
 export const advertisementRepository = new AdvertisementRepository();
