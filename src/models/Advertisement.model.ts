@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
 import { User } from "./User.model";
-import {ECurrency, EProducer } from "../enums";
+import { ECities, ECurrency, EProducer } from "../enums";
 
 const AdvertisementModel = new Schema({
     producer: {
@@ -10,6 +10,11 @@ const AdvertisementModel = new Schema({
     },
     car_model: {
         type: String,
+        required: true,
+    },
+    city: {
+        type: String,
+        enum: ECities,
         required: true,
     },
     year: {
