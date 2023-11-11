@@ -15,11 +15,11 @@ class UserController {
 
     public async getUserById(req: Request, res: Response, next: NextFunction): Promise<Response<IUser>> {
         try {
-            const { adId } = req.params;
+            const { id } = req.params;
 
-            const advertisement = await userService.getUserById(adId);
+            const user = await userService.getUserById(id);
 
-            return res.status(200).json(advertisement);
+            return res.status(200).json(user);
         } catch (e) {
             next(e);
         }
@@ -53,7 +53,6 @@ class UserController {
     public async reBlock(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const { id } = req.params;
-            console.log("reBlock", id);
             const user =  req.res.locals.user;
 
             await userService.reBlock(id, user);
@@ -64,12 +63,12 @@ class UserController {
         }
     }
 
-    public async reChange(req: Request, res: Response, next: NextFunction): Promise<void> {
+    public async changeRole(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const { id } = req.params;
             const { special_role } = req.body;
 
-            await userService.reChange(id, special_role);
+            await userService.changeRole(id, special_role);
 
             res.status(200).json("Account role has changed");
         } catch (e) {

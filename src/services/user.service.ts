@@ -46,7 +46,7 @@ class UserService {
         }
     }
 
-    public async reChange(id: string, role: ESpecialAccountRoles): Promise<void> {
+    public async changeRole(id: string, role: ESpecialAccountRoles): Promise<void> {
         try {
             await User.findByIdAndUpdate(id, {account_role: role});
         } catch (e) {

@@ -8,7 +8,7 @@ import { ESpecialAccountRoles } from "../enums";
 const router = Router();
 
 router.get(
-    "/",
+    "/all",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
@@ -16,7 +16,7 @@ router.get(
 );
 
 router.get(
-    "/:id",
+    "/byId/:id",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
@@ -36,18 +36,18 @@ router.put(
 );
 
 router.put(
-    "/rechange/:id",
+    "/change-role/:id",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
     generalMiddleware.isIdValid("id"),
     generalMiddleware.isBodyValid(UserValidator.updateRole),
     userMiddleware.isUserExists,
-    userController.reChange
+    userController.changeRole
 );
 
 router.delete(
-    "/:id",
+    "/delete-user/:id",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
@@ -57,7 +57,7 @@ router.delete(
 );
 
 router.put(
-    "/:id",
+    "/update-byId/:id",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
@@ -66,6 +66,8 @@ router.put(
     userMiddleware.isUserExists,
     userController.updateUserById,
 );
+
+// router.put("/")
 
 
 export const userRouter = router;
