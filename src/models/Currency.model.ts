@@ -18,7 +18,11 @@ const CurrencyModel = new Schema({
     }
 },
     {
-        versionKey: false
+        versionKey: false,
+        timestamps: {
+            createdAt: true,
+            updatedAt: false,
+        }
     })
 
 export const Currency = model("currency", CurrencyModel);

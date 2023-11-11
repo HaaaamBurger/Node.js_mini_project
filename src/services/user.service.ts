@@ -1,7 +1,7 @@
 import { EAccountStatus, EAccountTypes, ESpecialAccountRoles } from "../enums";
 import { ApiError } from "../errors";
-import { IUser } from "../interfaces";
-import { User } from "../models";
+import {IReport, IUser } from "../interfaces";
+import { User, Report } from "../models";
 
 class UserService {
     public async getAllUsers(): Promise<IUser[]> {
@@ -57,6 +57,14 @@ class UserService {
     public async changeType(id: string, type: EAccountTypes): Promise<void> {
         try {
             await User.findByIdAndUpdate(id, { account_type: type })
+        } catch (e) {
+            throw new ApiError(e.message, e.status);
+        }
+    }
+
+    public async sendReport(report: IReport, _userId: string): Promise<void> {
+        try {
+            await Report.create({...report, applicant: _userId});
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }

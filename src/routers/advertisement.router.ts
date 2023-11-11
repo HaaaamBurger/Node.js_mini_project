@@ -16,35 +16,32 @@ router.get(
 )
 
 router.get(
-    "/",
+    "/all",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
-    permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER, ESpecialAccountRoles.BUYER, ESpecialAccountRoles.SELLER]),
     advertisementController.getAllAdvertisements,
 );
 
 router.get(
-    "/:adId",
+    "/byId/:adId",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
-    permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER, ESpecialAccountRoles.BUYER, ESpecialAccountRoles.SELLER]),
     generalMiddleware.isIdValid("adId"),
     advertisementMiddleware.isAdvertisementExists,
     advertisementController.getAdvertisementById,
 );
 
 router.get(
-    "/userADs/:id",
+    "/user-ads/:id",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
-    permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER, ESpecialAccountRoles.BUYER, ESpecialAccountRoles.SELLER]),
     generalMiddleware.isIdValid("id"),
     userMiddleware.isUserExists,
     advertisementController.getUserAdvertisements
 )
 
 router.post(
-    "/",
+    "/create",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER, ESpecialAccountRoles.SELLER]),
@@ -54,7 +51,7 @@ router.post(
 );
 
 router.delete(
-    "/:adId",
+    "/delete-byId/:adId",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER, ESpecialAccountRoles.SELLER]),
@@ -65,7 +62,7 @@ router.delete(
 );
 
 router.put(
-    "/:adId",
+    "/update-byId/:adId",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER, ESpecialAccountRoles.SELLER]),

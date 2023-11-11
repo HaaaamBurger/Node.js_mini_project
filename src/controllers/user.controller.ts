@@ -79,12 +79,25 @@ class UserController {
 
     public async changeType(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const { id } = req.params;
-            const { account_type } = req.body;
+            const {id} = req.params;
+            const {account_type} = req.body;
 
             await userService.changeType(id, account_type);
 
             res.status(200).json("Account type has changed");
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async sendReport(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const report = req.body;
+            const { _userId } = req.res.locals.tokenPayload;
+
+            await userService.sendReport(report, _userId);
+
+            res.status(200).json("Report sended");
         } catch (e) {
             next(e);
         }

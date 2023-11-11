@@ -2,7 +2,7 @@ import { Router } from "express";
 
 import { authMiddleware, generalMiddleware, permissionsMiddleware, userMiddleware } from "../middlewares";
 import { userController } from "../controllers";
-import { UserValidator } from "../validators";
+import {ReportValidator, UserValidator } from "../validators";
 import { ESpecialAccountRoles } from "../enums";
 
 const router = Router();
@@ -76,6 +76,14 @@ router.put(
     generalMiddleware.isBodyValid(UserValidator.updateUser),
     userMiddleware.isUserExists,
     userController.updateUserById,
+);
+
+router.put(
+    "/report",
+    authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
+    generalMiddleware.isBodyValid(ReportValidator.create_report),
+    userController.sendReport,
 );
 
 export const userRouter = router;

@@ -65,5 +65,4 @@ class GeneralMiddleware {
     }
 
 }
-
 export const generalMiddleware = new GeneralMiddleware();

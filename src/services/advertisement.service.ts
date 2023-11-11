@@ -7,7 +7,7 @@ import { statisticsService } from "./statistics.service";
 class AdvertisementService {
     public async getAllAdvertisements(): Promise<IAdvertisement[]> {
         try {
-            return await Advertisement.find().populate("owner", "_id email phone_number");;
+            return await Advertisement.find().select("_id producer car_model city year price currency");
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }
@@ -71,7 +71,7 @@ class AdvertisementService {
 
     public async getUserAdvertisements(id: string): Promise<IAdvertisement[]> {
         try {
-            return await Advertisement.find({ owner: id }).select("_id producer car_model year price");
+            return await Advertisement.find({ owner: id }).select("_id producer car_model year price currency");
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }
