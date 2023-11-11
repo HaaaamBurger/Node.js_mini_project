@@ -16,7 +16,7 @@ export interface IAdvertisement extends Document{
     producer: EProducer;
     car_model: string;
     year: number;
-    price: number;
+    price: number | object;
     currency: ECurrency;
     description?: string;
 }

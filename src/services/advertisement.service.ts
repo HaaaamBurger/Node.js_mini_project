@@ -24,8 +24,6 @@ class AdvertisementService {
         try {
             const convertedCurrencies = await advertisementRepository.convertCurrency({base_ccy: advertisement.currency, price: advertisement.price});
 
-            console.log(convertedCurrencies);
-
             await Advertisement.create({...advertisement, price: convertedCurrencies, owner: tokenPayload._userId});
         } catch (e) {
             throw new ApiError(e.message, e.status);
@@ -40,8 +38,16 @@ class AdvertisementService {
         }
     };
 
-    public async updateAdvertisementById(body: Partial<IAdvertisement>, id: string): Promise<IAdvertisement> {
+    public async updateAdvertisementById(advertisement: IAdvertisement, body: Partial<IAdvertisement>, id: string): Promise<IAdvertisement> {
         try {
+            if (body.price || body.currency) {
+                if (!body.price || !body.currency) {
+                    throw new ApiError("Price and Currency required", 400);
+                }
+                const convertedCurrencies = await advertisementRepository.convertCurrency({base_ccy: body.currency, price: body.price});
+                body = {...body, price: convertedCurrencies};
+            }
+
             return await Advertisement.findByIdAndUpdate(id, body, {
                 returnDocument: "after"
             })

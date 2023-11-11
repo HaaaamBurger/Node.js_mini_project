@@ -6,7 +6,7 @@ export interface ICurrency {
 
 export interface IExchnage {
     base_ccy: string;
-    price: number;
+    price: number | object;
 }
 
 export interface IPrices {
