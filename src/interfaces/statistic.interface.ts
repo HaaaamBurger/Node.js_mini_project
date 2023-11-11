@@ -19,3 +19,8 @@ export interface IStatistic {
     avg_price: IPriceStats;
     views: IViewStats;
 }
+
+export interface IAggregateReturn {
+    _id: number;
+    avg_price: number;
+}

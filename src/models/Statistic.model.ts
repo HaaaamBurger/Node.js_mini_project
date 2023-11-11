@@ -16,6 +16,9 @@ const StatisticModel = new Schema({
         required: true,
         ref: Advertisement,
     }
-})
+},
+    {
+        versionKey: false
+    })
 
 export const Statistic = model("statistic", StatisticModel);

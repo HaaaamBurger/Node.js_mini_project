@@ -23,9 +23,20 @@ class AdvertisementService {
 
     public async createAdvertisement(advertisement: IAdvertisement, tokenPayload: ITokenPayload): Promise<void> {
         try {
-            const convertedCurrencies = await advertisementRepository.convertCurrency({base_ccy: advertisement.currency, price: advertisement.price}) as IPrices;
-            const createdAdvertisement = await Advertisement.create({...advertisement, price: convertedCurrencies, owner: tokenPayload._userId});
-            await statisticsService.createAdStatistic(advertisement.city, createdAdvertisement._id.toHexString(), convertedCurrencies);
+            const convertedCurrencies = await advertisementRepository.convertCurrency(
+                {
+                    base_ccy: advertisement.currency,
+                    price: advertisement.price
+                }) as IPrices;
+            const createdAdvertisement = await Advertisement.create(
+                {...advertisement,
+                    price: convertedCurrencies,
+                    owner: tokenPayload._userId
+                });
+            await statisticsService.createAdStatistic(
+                advertisement.city,
+                createdAdvertisement._id.toHexString()
+            );
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }

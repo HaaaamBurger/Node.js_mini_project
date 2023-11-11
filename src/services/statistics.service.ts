@@ -1,15 +1,11 @@
 import { ApiError } from "../errors";
-import { IPriceStats, IPrices } from "../interfaces";
+import {IAggregateReturn } from "../interfaces";
 import {Advertisement, Statistic } from "../models";
 
-interface IAggregateReturn {
-    _id: number;
-    avg_price: number;
-}
-
 class StatisticsService {
-    public async createAdStatistic(city: string, adId: string, car_price: IPrices) {
+    public async createAdStatistic(city: string, adId: string) {
         try {
+
             const averageByCountry: IAggregateReturn[] = await Advertisement.aggregate([
                 {
                     $group: {
@@ -18,7 +14,6 @@ class StatisticsService {
                     }
                 }
             ]);
-
 
             const averagePriceByCity: IAggregateReturn[] = await Advertisement.aggregate([
                 {
@@ -32,16 +27,13 @@ class StatisticsService {
                 },
             ])
 
-            console.log(adId);
-
             await Statistic.create({
-                car_price,
                 avg_price: {
                   city_avg: {
                       name: city,
-                      avg: averagePriceByCity[0].avg_price
+                      avg: averagePriceByCity[0].avg_price.toFixed(5)
                   },
-                  country_avg: averageByCountry[0].avg_price,
+                  country_avg: averageByCountry[0].avg_price.toFixed(5),
                 },
                 advertisement: adId,
             })
