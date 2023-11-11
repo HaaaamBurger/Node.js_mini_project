@@ -51,7 +51,7 @@ class AdvertisementService {
         }
     };
 
-    public async updateAdvertisementById(advertisement: IAdvertisement, body: Partial<IAdvertisement>, id: string): Promise<IAdvertisement> {
+    public async updateAdvertisementById(body: Partial<IAdvertisement>, id: string): Promise<IAdvertisement> {
         try {
             if (body.price || body.currency) {
                 if (!body.price || !body.currency) {

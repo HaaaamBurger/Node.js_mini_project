@@ -53,10 +53,9 @@ class AdvertisementController {
     public async updateAdvertisementById(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const body = req.body;
-            const advertisement = req.res.locals.advertisement;
             const { adId } = req.params;
 
-            const createdAdvertisement = await advertisementService.updateAdvertisementById(advertisement,body, adId);
+            const createdAdvertisement = await advertisementService.updateAdvertisementById(body, adId);
 
             res.status(201).json(createdAdvertisement);
         } catch (e) {
