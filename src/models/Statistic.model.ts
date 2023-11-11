@@ -1,11 +1,20 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
+import { Advertisement } from "./Advertisement.model";
 
 const StatisticModel = new Schema({
     avg_price: {
-        type: Number
+        type: Object,
+        required: true,
     },
     views: {
-        type: Number,
+        type: Object,
+        default: 0,
+        required: true
+    },
+    advertisement: {
+        type: Types.ObjectId,
+        required: true,
+        ref: Advertisement,
     }
 })
 

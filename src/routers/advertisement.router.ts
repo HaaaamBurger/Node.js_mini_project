@@ -3,9 +3,17 @@ import { Router } from "express";
 import { AdvertisementValidator } from "../validators";
 import { advertisementMiddleware, authMiddleware, generalMiddleware, permissionsMiddleware, userMiddleware } from "../middlewares";
 import { advertisementController } from "../controllers";
-import { ESpecialAccountRoles } from "../enums";
+import { EAccountTypes, ESpecialAccountRoles } from "../enums";
 
 const router = Router();
+
+router.get(
+    "/statistics",
+    authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
+    advertisementMiddleware.isAccountTypeAllowed([EAccountTypes.PREMIUM]),
+    advertisementController.advertisementStats,
+)
 
 router.get(
     "/",
@@ -66,4 +74,6 @@ router.put(
     advertisementMiddleware.isAdvertisementExists,
     advertisementController.updateAdvertisementById,
 );
+
+
 export const advertisementRouter = router;

@@ -5,7 +5,6 @@ import { userController } from "../controllers";
 import { UserValidator } from "../validators";
 import { ESpecialAccountRoles } from "../enums";
 
-
 const router = Router();
 
 router.get(
@@ -25,7 +24,6 @@ router.get(
     userMiddleware.isUserExists,
     userController.getUserById,
 );
-
 
 router.put(
     "/reblock/:id",

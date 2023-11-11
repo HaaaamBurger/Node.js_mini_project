@@ -1,8 +1,16 @@
-import { Types } from "mongoose";
+export interface IPriceStats {
+    city_avg: number;
+    country_avg: number;
+}
+
+export interface IViewStats {
+    general_views: number;
+    per_day: number;
+    per_week: number;
+    per_month: number;
+}
 
 export interface IStatistic {
-    _carId: Types.ObjectId,
-    _ownerId: Types.ObjectId,
-    avg_price: number;
-    views: number;
+    avg_price: IPriceStats;
+    views: IViewStats;
 }

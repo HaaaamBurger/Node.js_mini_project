@@ -40,6 +40,23 @@ class AdvertisementMiddleware {
             }
         }
     }
+
+    public isAccountTypeAllowed(isAllowedToManage: EAccountTypes[]) {
+        return (req: Request, res: Response, next: NextFunction) => {
+            try {
+                const accessToken = req.get("Authorization");
+                const { account_type } = tokenService.checkToken(accessToken, "access");
+
+                if (!isAllowedToManage.includes(account_type)) {
+                    throw new ApiError("Permitted", 403);
+                }
+
+                next();
+            } catch (e) {
+                next(e);
+            }
+        }
+    }
 }
 
 export const advertisementMiddleware = new AdvertisementMiddleware();

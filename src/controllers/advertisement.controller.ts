@@ -75,6 +75,15 @@ class AdvertisementController {
             next(e);
         }
     }
+
+    public async advertisementStats(req: Request, res: Response, next: NextFunction) {
+        try {
+            const advertisements = await advertisementService.advertisementStats();
+            return res.json(advertisements);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 export const advertisementController = new AdvertisementController();

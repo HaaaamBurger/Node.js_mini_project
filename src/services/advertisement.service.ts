@@ -1,6 +1,6 @@
 import { ApiError } from "../errors";
 import { IAdvertisement, ITokenPayload, IUser } from "../interfaces";
-import { Advertisement } from "../models";
+import { Advertisement, Statistic } from "../models";
 import { advertisementRepository } from "../repositories";
 
 class AdvertisementService {
@@ -59,6 +59,14 @@ class AdvertisementService {
     public async getUserAdvertisements(id: string): Promise<IAdvertisement[]> {
         try {
             return await Advertisement.find({ owner: id });
+        } catch (e) {
+            throw new ApiError(e.message, e.status);
+        }
+    }
+
+    public async advertisementStats() {
+        try {
+            return await Statistic.find().populate("advertisement");
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }
