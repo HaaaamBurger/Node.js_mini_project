@@ -1,7 +1,8 @@
 import { ApiError } from "../errors";
-import { IAdvertisement, ITokenPayload, IUser } from "../interfaces";
+import { IAdvertisement, IPrices, ITokenPayload, IUser } from "../interfaces";
 import { Advertisement, Statistic } from "../models";
 import { advertisementRepository } from "../repositories";
+import { statisticsService } from "./statistics.service";
 
 class AdvertisementService {
     public async getAllAdvertisements(): Promise<IAdvertisement[]> {
@@ -22,9 +23,9 @@ class AdvertisementService {
 
     public async createAdvertisement(advertisement: IAdvertisement, tokenPayload: ITokenPayload): Promise<void> {
         try {
-            const convertedCurrencies = await advertisementRepository.convertCurrency({base_ccy: advertisement.currency, price: advertisement.price});
-
-            await Advertisement.create({...advertisement, price: convertedCurrencies, owner: tokenPayload._userId});
+            const convertedCurrencies = await advertisementRepository.convertCurrency({base_ccy: advertisement.currency, price: advertisement.price}) as IPrices;
+            const createdAdvertisement = await Advertisement.create({...advertisement, price: convertedCurrencies, owner: tokenPayload._userId});
+            await statisticsService.createAdStatistic(advertisement.city, createdAdvertisement._id.toHexString(), convertedCurrencies);
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }

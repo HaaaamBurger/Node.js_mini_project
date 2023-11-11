@@ -8,7 +8,6 @@ class AdvertisementRepository {
        try {
            const currencies = await Currency.findOne();
 
-           console.log(currency.price,currencies.usd_ccy);
            switch (currency.base_ccy) {
                case "UAH":
                    return {

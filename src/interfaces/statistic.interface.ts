@@ -1,5 +1,10 @@
+export interface ICityAvg {
+    name: string;
+    avg: number;
+}
+
 export interface IPriceStats {
-    city_avg: number;
+    city_avg: ICityAvg;
     country_avg: number;
 }
 
