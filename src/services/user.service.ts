@@ -1,5 +1,3 @@
-import { Types } from "mongoose";
-
 import { EAccountStatus, EAccountTypes, ESpecialAccountRoles } from "../enums";
 import { ApiError } from "../errors";
 import { IUser } from "../interfaces";
@@ -56,7 +54,7 @@ class UserService {
         }
     }
 
-    public async changeType(id: string, type: EAccountTypes) {
+    public async changeType(id: string, type: EAccountTypes): Promise<void> {
         try {
             await User.findByIdAndUpdate(id, { account_type: type })
         } catch (e) {

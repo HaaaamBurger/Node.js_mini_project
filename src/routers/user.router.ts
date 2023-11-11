@@ -78,7 +78,4 @@ router.put(
     userController.updateUserById,
 );
 
-
-
-
 export const userRouter = router;

@@ -1,4 +1,5 @@
 import { Document } from "mongoose"
+
 import { EAccountStatus, EAccountTypes, ECurrency, EProducer, ESpecialAccountRoles } from "../enums";
 
 export interface IUser extends Document{

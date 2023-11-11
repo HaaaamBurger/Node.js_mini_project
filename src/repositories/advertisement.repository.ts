@@ -1,30 +1,30 @@
 import { ApiError } from "../errors";
-import { IExchnage } from "../interfaces";
+import { IExchnage, IPrices } from "../interfaces";
 import { Currency, Statistic } from "../models";
 
 
 class AdvertisementRepository {
-   public async convertCurrency(currency: IExchnage) {
+   public async convertCurrency(currency: IExchnage): Promise<IPrices> {
        try {
            const currencies = await Currency.findOne();
 
            switch (currency.base_ccy) {
                case "UAH":
                    return {
-                       UAH: currency.price,
                        USD: Number((Number(currency.price) / Number(currencies.usd_ccy)).toFixed(5)),
                        EUR: Number((Number(currency.price) / Number(currencies.eur_ccy)).toFixed(5)),
+                       UAH: Number(currency.price),
                    }
                case "USD":
                    return {
-                       USD: currency.price,
-                       UAH: Number((Number(currency.price) * Number(currencies.usd_ccy)).toFixed(5)),
+                       USD: Number(currency.price),
                        EUR: Number((Number(currency.price) * Number(currencies.eur_ccy) / Number(currencies.usd_ccy)).toFixed(5)),
+                       UAH: Number((Number(currency.price) * Number(currencies.usd_ccy)).toFixed(5)),
                    }
                case "EUR":
                    return {
-                       EUR: currency.price,
                        USD: Number((Number(currency.price) * Number(currencies.usd_ccy) / Number(currencies.eur_ccy)).toFixed(5)),
+                       EUR: Number(currency.price),
                        UAH: Number((Number(currency.price) * Number(currencies.usd_ccy)).toFixed(5))
                    }
            }
@@ -33,7 +33,7 @@ class AdvertisementRepository {
        }
    }
 
-   public async viewsIncrement(adId: string) {
+   public async viewsIncrement(adId: string): Promise<void> {
        try {
            await Statistic.findOneAndUpdate({ advertisement: adId }, { $inc: { views: 1 } })
        } catch (e) {

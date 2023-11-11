@@ -1,5 +1,5 @@
 import { ApiError } from "../errors";
-import { IAdvertisement, IPrices, ITokenPayload, IUser } from "../interfaces";
+import { IAdvertisement, IPrices, IStatistic, ITokenPayload } from "../interfaces";
 import { Advertisement, Statistic } from "../models";
 import { advertisementRepository } from "../repositories";
 import { statisticsService } from "./statistics.service";
@@ -77,7 +77,7 @@ class AdvertisementService {
         }
     }
 
-    public async advertisementStats() {
+    public async advertisementStats(): Promise<IStatistic[]> {
         try {
             return await Statistic.find().populate("advertisement");
         } catch (e) {

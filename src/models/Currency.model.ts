@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+
 import { ECurrency } from "../enums";
 
 const CurrencyModel = new Schema({

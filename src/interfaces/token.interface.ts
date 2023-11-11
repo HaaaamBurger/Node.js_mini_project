@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+
 import { EAccountStatus, EAccountTypes, ESpecialAccountRoles } from "../enums";
 
 export interface ITokenPair {

@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+
 import { userService } from "../services";
 import { IUser } from "../interfaces";
 
@@ -76,7 +77,7 @@ class UserController {
         }
     }
 
-    public async changeType(req: Request, res: Response, next: NextFunction) {
+    public async changeType(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const { id } = req.params;
             const { account_type } = req.body;

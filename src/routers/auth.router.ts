@@ -1,8 +1,8 @@
 import { Router } from "express";
+
 import { UserValidator } from "../validators";
 import { authController } from "../controllers";
 import {authMiddleware, generalMiddleware, userMiddleware } from "../middlewares";
-
 
 const router = Router();
 

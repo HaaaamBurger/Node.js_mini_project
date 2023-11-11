@@ -1,4 +1,5 @@
 import * as jwt from "jsonwebtoken";
+
 import {ITokenPair, ITokenPayload } from "../interfaces";
 import { configs } from "../configs";
 import { ApiError } from "../errors";

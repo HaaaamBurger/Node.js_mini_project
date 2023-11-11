@@ -1,6 +1,6 @@
 import { model, Schema, Types } from "mongoose";
+
 import { EAccountRoles, EAccountStatus, EAccountTypes } from "../enums";
-import { Advertisement } from "./Advertisement.model";
 
 const UserModel = new Schema({
     username: {

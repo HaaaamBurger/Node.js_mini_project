@@ -1,7 +1,7 @@
 import express from "express";
 import * as mongoose from "mongoose";
-
 import { Request, Response, NextFunction } from "express";
+
 import { configs } from "./configs";
 import { ApiError } from "./errors";
 import {advertisementRouter, authRouter, userRouter } from "./routers";
@@ -17,7 +17,7 @@ main.use("/auth", authRouter);
 main.use("/users", userRouter);
 main.use("/advertisement", advertisementRouter)
 
-main.use((error: ApiError, req: Request, res: Response, next: NextFunction) => {
+main.use((error: ApiError, req: Request, res: Response, next: NextFunction): void => {
     const status = error.status || 500;
 
     res.status(status).json({

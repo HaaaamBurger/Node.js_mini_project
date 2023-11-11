@@ -1,7 +1,7 @@
 import { model, Schema, Types } from "mongoose";
+
 import { User } from "./User.model";
 import { ECities, ECurrency, EProducer } from "../enums";
-import { IPrices } from "../interfaces";
 
 const AdvertisementModel = new Schema({
     producer: {

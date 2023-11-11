@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { IAdvertisement } from "../interfaces";
+
+import { IAdvertisement, IStatistic } from "../interfaces";
 import { advertisementService } from "../services";
 
 class AdvertisementController {
@@ -75,7 +76,7 @@ class AdvertisementController {
         }
     }
 
-    public async advertisementStats(req: Request, res: Response, next: NextFunction) {
+    public async advertisementStats(req: Request, res: Response, next: NextFunction): Promise<Response<IStatistic[]>> {
         try {
             const advertisements = await advertisementService.advertisementStats();
             return res.json(advertisements);

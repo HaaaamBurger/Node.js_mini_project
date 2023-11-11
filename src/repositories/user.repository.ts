@@ -1,4 +1,5 @@
 import { FilterQuery } from "mongoose";
+
 import { IUser } from "../interfaces";
 import { User } from "../models";
 import { ApiError } from "../errors";

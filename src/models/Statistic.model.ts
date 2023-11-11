@@ -1,4 +1,5 @@
 import { model, Schema, Types } from "mongoose";
+
 import { Advertisement } from "./Advertisement.model";
 
 const StatisticModel = new Schema({

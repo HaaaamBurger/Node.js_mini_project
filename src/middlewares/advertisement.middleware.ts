@@ -1,4 +1,5 @@
 import { Response, Request ,NextFunction } from "express";
+
 import { Advertisement } from "../models";
 import { ApiError } from "../errors";
 import { tokenService } from "../services";
@@ -23,7 +24,7 @@ class AdvertisementMiddleware {
     }
 
     public isLimitReached(limit = 1) {
-        return async (req: Request, res: Response, next: NextFunction) => {
+        return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
             try {
                const accessToken = req.get("Authorization");
                const { account_type, _userId } = tokenService.checkToken(accessToken, "access");

@@ -1,4 +1,5 @@
 import joi from "joi";
+
 import { regexConstants } from "../constants";
 import { EAccountRoles, EAccountTypes, ESpecialAccountRoles } from "../enums";
 

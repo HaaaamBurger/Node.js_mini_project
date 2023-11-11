@@ -5,7 +5,7 @@ import { ApiError } from "../errors";
 
 class PermissionsMiddleware {
     public isRoleAllowed(role: string[]) {
-        return (req: Request, res: Response, next: NextFunction) => {
+        return (req: Request, res: Response, next: NextFunction): void => {
             try {
                 const tokenPayload = tokenService.checkToken(req.get("Authorization"), "access");
                 if (!role.includes(tokenPayload.account_role)) {

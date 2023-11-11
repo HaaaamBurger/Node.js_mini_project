@@ -1,4 +1,5 @@
 import joi from "joi";
+
 import {ECities, ECurrency, EProducer } from "../enums";
 
 export class AdvertisementValidator {

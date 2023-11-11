@@ -3,7 +3,7 @@ import {IAggregateReturn } from "../interfaces";
 import {Advertisement, Statistic } from "../models";
 
 class StatisticsService {
-    public async createAdStatistic(city: string, adId: string) {
+    public async createAdStatistic(city: string, adId: string): Promise<void> {
         try {
 
             const averageByCountry: IAggregateReturn[] = await Advertisement.aggregate([
