@@ -1,7 +1,7 @@
 import { ECurrency } from "../enums";
 
 export interface ICurrency {
-    base_ccy: string;
+    base_ccy: ECurrency;
     usd_ccy: string;
     eur_ccy: string;
 }

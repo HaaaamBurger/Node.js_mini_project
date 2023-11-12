@@ -5,7 +5,6 @@ import { axiosService } from "../services";
 import { currencyRepository } from "../repositories";
 import { ECurrency } from "../enums";
 
-
 const currencyUpdater = async function (): Promise<void> {
     try {
         const currencies = await axiosService.getCurrencies();

@@ -3,10 +3,10 @@ import { ICurrency } from "../interfaces";
 import { Currency } from "../models";
 
 class CurrencyRepository {
-    public async createCurrency(currencies: ICurrency): Promise<void> {
+    public async createCurrency(currencies: ICurrency): Promise<ICurrency> {
         try {
             await Currency.deleteMany();
-            await Currency.create(currencies);
+            return await Currency.create(currencies) as ICurrency;
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }
