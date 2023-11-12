@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 
 import { configs } from "./configs";
 import { ApiError } from "./errors";
-import {advertisementRouter, authRouter, userRouter } from "./routers";
+import { advertisementRouter, authRouter, reportRouter, userRouter } from "./routers";
 import { cronRunner } from "./crons";
 
 
@@ -15,7 +15,8 @@ main.use(express.urlencoded({extended: true}));
 
 main.use("/auth", authRouter);
 main.use("/users", userRouter);
-main.use("/advertisement", advertisementRouter)
+main.use("/advertisement", advertisementRouter);
+main.use("/report", reportRouter)
 
 main.use((error: ApiError, req: Request, res: Response, next: NextFunction): void => {
     const status = error.status || 500;

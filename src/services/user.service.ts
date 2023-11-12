@@ -62,13 +62,6 @@ class UserService {
         }
     }
 
-    public async sendReport(report: IReport, _userId: string): Promise<void> {
-        try {
-            await Report.create({...report, applicant: _userId});
-        } catch (e) {
-            throw new ApiError(e.message, e.status);
-        }
-    }
 
 }
 

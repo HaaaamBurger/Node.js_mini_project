@@ -90,19 +90,6 @@ class UserController {
         }
     }
 
-    public async sendReport(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            const report = req.body;
-            const { _userId } = req.res.locals.tokenPayload;
-
-            await userService.sendReport(report, _userId);
-
-            res.status(200).json("Report sended");
-        } catch (e) {
-            next(e);
-        }
-    }
-
 };
 
 export const userController = new UserController();

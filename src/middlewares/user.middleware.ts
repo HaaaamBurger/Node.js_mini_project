@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
+import { Report } from "../models"
 import { ApiError } from "../errors";
 import { userRepository } from "../repositories";
 import { User } from "../models";
