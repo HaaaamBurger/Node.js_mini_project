@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 
 import { IAdvertisement, IStatistic } from "../interfaces";
 import { advertisementService } from "../services";
+import { UploadedFile } from "express-fileupload";
 
 class AdvertisementController {
     public async getAllAdvertisements(req: Request, res: Response, next: NextFunction): Promise<Response<IAdvertisement[]>> {
@@ -83,10 +84,23 @@ class AdvertisementController {
         }
     }
 
-    public statsById(req: Request, res: Response, next: NextFunction) {
+    public statsById(req: Request, res: Response, next: NextFunction): Response<IStatistic>{
         try {
             const statistic = req.res.locals.statistic;
             return res.json(statistic);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public async uploadCarPhoto(req: Request, res: Response, next: NextFunction): Promise<Response<IAdvertisement>> {
+        try {
+            const { adId } = req.params;
+            const car_photo = req.files.car_photo as UploadedFile;
+
+            const advertisement =  await advertisementService.uploadCarPhoto(adId, car_photo);
+
+            return res.status(200).json(advertisement);
         } catch (e) {
             next(e);
         }

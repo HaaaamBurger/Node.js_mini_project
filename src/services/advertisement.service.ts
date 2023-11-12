@@ -1,8 +1,11 @@
+import { UploadedFile } from "express-fileupload";
+
 import { ApiError } from "../errors";
 import { IAdvertisement, IPrices, IStatistic, ITokenPayload } from "../interfaces";
 import { Advertisement, Statistic } from "../models";
 import { advertisementRepository } from "../repositories";
 import { statisticsService } from "./statistics.service";
+import { s3Service } from "./s3.service";
 
 class AdvertisementService {
     public async getAllAdvertisements(): Promise<IAdvertisement[]> {
@@ -71,6 +74,16 @@ class AdvertisementService {
     public async advertisementStats(): Promise<IStatistic[]> {
         try {
             return await Statistic.find().populate("advertisement", "_id producer car_model city year owner");
+        } catch (e) {
+            throw new ApiError(e.message, e.status);
+        }
+    }
+
+    public async uploadCarPhoto(adId: string, car_photo: UploadedFile): Promise<IAdvertisement> {
+        try {
+            const filePath = await s3Service.uploadFile(car_photo, "advertisement", adId);
+
+            return await Advertisement.findByIdAndUpdate(adId, { $set: { car_photo: filePath }, new: true })
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }

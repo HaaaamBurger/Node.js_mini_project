@@ -75,6 +75,7 @@ class AdvertisementMiddleware {
             next(e);
         }
     }
+
 }
 
 export const advertisementMiddleware = new AdvertisementMiddleware();

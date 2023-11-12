@@ -13,6 +13,9 @@ const AdvertisementModel = new Schema({
         type: String,
         required: true,
     },
+    car_photo: {
+        type: String
+    },
     city: {
         type: String,
         enum: ECities,

@@ -1,7 +1,8 @@
 import { Router } from "express";
 
 import { AdvertisementValidator } from "../validators";
-import { advertisementMiddleware, authMiddleware, generalMiddleware, permissionsMiddleware, userMiddleware } from "../middlewares";
+import { advertisementMiddleware, authMiddleware,
+    fileMiddleware, generalMiddleware, permissionsMiddleware, userMiddleware } from "../middlewares";
 import { advertisementController } from "../controllers";
 import { EAccountTypes, ESpecialAccountRoles } from "../enums";
 
@@ -58,6 +59,17 @@ router.post(
     generalMiddleware.isBodyValid(AdvertisementValidator.createAdvertisement),
     advertisementMiddleware.isLimitReached(),
     advertisementController.createAdvertisement,
+);
+
+router.post(
+    "/:adId/photo",
+    authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
+    generalMiddleware.isIdValid("adId"),
+    generalMiddleware.isAllowToManage("adId", [ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER]),
+    permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER, ESpecialAccountRoles.BUYER]),
+    fileMiddleware.isCarPhotoValid,
+    advertisementController.uploadCarPhoto,
 );
 
 router.delete(

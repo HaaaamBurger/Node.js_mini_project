@@ -1,17 +1,17 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import * as mongoose from "mongoose";
-import { Request, Response, NextFunction } from "express";
+import fileUpload from "express-fileupload";
 
 import { configs } from "./configs";
 import { ApiError } from "./errors";
 import { advertisementRouter, authRouter, reportRouter, userRouter } from "./routers";
 import { cronRunner } from "./crons";
 
-
 const main = express();
 
 main.use(express.json());
 main.use(express.urlencoded({extended: true}));
+main.use(fileUpload());
 
 main.use("/auth", authRouter);
 main.use("/users", userRouter);
