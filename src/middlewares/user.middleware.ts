@@ -52,6 +52,27 @@ class UserMiddleware {
         }
     }
 
+    public isAllowToManageUser(param: string, allowedToManage: string[]) {
+        return (req: Request, res: Response, next: NextFunction): void => {
+            try {
+                const parameter = req.params[param];
+
+                const accessToken = req.get("Authorization");
+                const tokenPayload = tokenService.checkToken(accessToken, "access");
+
+                if (!allowedToManage.includes(tokenPayload.account_role)) {
+                    if (parameter !== tokenPayload._userId.toString()) {
+                        throw new ApiError("You cannot manage this subject", 400);
+                    }
+                }
+
+                next();
+            } catch (e) {
+                next(e);
+            }
+        }
+    }
+
 }
 
 export const userMiddleware = new UserMiddleware();

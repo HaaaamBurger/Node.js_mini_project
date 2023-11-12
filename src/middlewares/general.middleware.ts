@@ -44,25 +44,5 @@ class GeneralMiddleware {
         }
     }
 
-    public isAllowToManage(param: string, allowedToManage: string[]) {
-        return (req: Request, res: Response, next: NextFunction): void => {
-            try {
-                const { param } = req.params;
-                const accessToken = req.get("Authorization");
-                const tokenPayload = tokenService.checkToken(accessToken, "access");
-
-                if (!allowedToManage.includes(tokenPayload.account_role)) {
-                    if (param !== tokenPayload._userId.toString()) {
-                        throw new ApiError("You cannot manage this account", 400);
-                    }
-                }
-
-                next();
-            } catch (e) {
-                next(e);
-            }
-        }
-    }
-
 }
 export const generalMiddleware = new GeneralMiddleware();

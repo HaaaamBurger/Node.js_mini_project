@@ -1,4 +1,4 @@
-import { Document } from "mongoose"
+import { Document, Types } from "mongoose"
 
 import { EAccountStatus, EAccountTypes, ECurrency, EProducer, ESpecialAccountRoles } from "../enums";
 
@@ -21,6 +21,7 @@ export interface IAdvertisement extends Document{
     car_photo: string;
     price: number | object;
     currency: ECurrency;
+    owner: Types.ObjectId;
     description?: string;
 }
 

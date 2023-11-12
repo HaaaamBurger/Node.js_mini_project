@@ -1,9 +1,11 @@
 import { Response, Request ,NextFunction } from "express";
+import { Types } from "mongoose";
 
 import { Advertisement, Statistic } from "../models";
 import { ApiError } from "../errors";
 import { tokenService } from "../services";
 import { EAccountTypes } from "../enums";
+import { IAdvertisement } from "../interfaces";
 
 class AdvertisementMiddleware {
     public async isAdvertisementExists(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -73,6 +75,31 @@ class AdvertisementMiddleware {
             next();
         } catch (e) {
             next(e);
+        }
+    }
+
+    public isAllowToManageAdvertisement(param: string, allowedToManage: string[]) {
+        return async (req: Request, res: Response, next: NextFunction) => {
+            try {
+                const parameter = req.params[param];
+
+                const accessToken = req.get("Authorization");
+                const tokenPayload = tokenService.checkToken(accessToken, "access");
+
+                let { owner } = await Advertisement.findById(parameter) as IAdvertisement;
+
+                console.log(tokenPayload._userId, owner.toHexString())
+
+                if (!allowedToManage.includes(tokenPayload.account_role)) {
+                    if (tokenPayload._userId.toString() !== owner.toHexString()) {
+                        throw new ApiError("You cannot manage this subject", 400);
+                    }
+                }
+
+                next();
+            } catch (e) {
+                next(e);
+            }
         }
     }
 
