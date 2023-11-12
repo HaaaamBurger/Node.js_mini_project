@@ -1,0 +1,846 @@
+{
+  "info": {
+    "_postman_id": "0b97d86f-680d-460e-b9d5-bbe15740d401",
+    "name": "Express_test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "28727655"
+  },
+  "item": [
+    {
+      "name": "register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4444/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = JSON.parse(responseBody);\r",
+              "\r",
+              "pm.environment.set(\"accessToken\", body.accessToken);\r",
+              "pm.environment.set(\"refreshToken\", body.refreshToken);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4444/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "refresh",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const body = JSON.parse(responseBody);\r",
+              "\r",
+              "pm.environment.set(\"accessToken\", body.accessToken);\r",
+              "pm.environment.set(\"refreshToken\", body.refreshToken);\r",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{refreshToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/auth/refresh",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "auth",
+            "refresh"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "users",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/users/all",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "users",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-user",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4444/users/update-byId/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "users",
+            "update-byId",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-user",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/users/byId/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "users",
+            "byId",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-user",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/users/delete-byId/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "users",
+            "delete-byId",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-change-role",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4444/users/change-role/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "users",
+            "change-role",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-change-type",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4444/users/change-type/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "users",
+            "change-type",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-reblock",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/users/reblock/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "users",
+            "reblock",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "advertisements",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/advertisement/all",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "advertisement",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create_advertisement",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4444/advertisement/create",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "advertisement",
+            "create"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-advertisement",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/advertisement/delete-byId/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "advertisement",
+            "delete-byId",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-advertisement",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/advertisement/byId/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "advertisement",
+            "byId",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-advertisement",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4444/advertisement/update-byId/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "advertisement",
+            "update-byId",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-photo",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "car_photo",
+              "type": "file",
+              "src": []
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:4444/advertisement/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "advertisement",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "userId-user-ads",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/advertisement/user-ads/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "advertisement",
+            "user-ads",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "statistics",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/advertisement/statistics",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "advertisement",
+            "statistics"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-statistic",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/advertisement/statistics/by-id/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "advertisement",
+            "statistics",
+            "by-id",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "reports",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/report/all",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "report",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-report",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/report/by-repId/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "report",
+            "by-repId",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "report",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4444/report",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "report"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-update",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:4444/report/update/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "report",
+            "update",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "byId-report",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{accessToken}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:4444/report/delete/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "4444",
+          "path": [
+            "report",
+            "delete",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
