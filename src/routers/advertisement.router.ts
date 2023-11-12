@@ -16,6 +16,16 @@ router.get(
 )
 
 router.get(
+    "/statistics/by-id/:statId",
+    authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
+    generalMiddleware.isIdValid("statId"),
+    advertisementMiddleware.isAccountTypeAllowed([EAccountTypes.PREMIUM]),
+    advertisementMiddleware.isStatisticExists,
+    advertisementController.statsById,
+)
+
+router.get(
     "/all",
     authMiddleware.checkAccessToken,
     userMiddleware.isUserBlocked,

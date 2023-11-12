@@ -14,11 +14,9 @@ class AdvertisementController {
         }
     };
 
-    public async getAdvertisementById(req: Request, res: Response, next: NextFunction): Promise<Response<IAdvertisement>> {
+    public getAdvertisementById(req: Request, res: Response, next: NextFunction): Response<IAdvertisement> {
         try {
-            const { adId } = req.params;
-
-            const advertisement = await advertisementService.getAdvertisementById(adId);
+            const advertisement =  req.res.locals.advertisement;
 
             return res.status(200).json(advertisement);
         } catch (e) {
@@ -80,6 +78,15 @@ class AdvertisementController {
         try {
             const advertisements = await advertisementService.advertisementStats();
             return res.json(advertisements);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public statsById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const statistic = req.res.locals.statistic;
+            return res.json(statistic);
         } catch (e) {
             next(e);
         }

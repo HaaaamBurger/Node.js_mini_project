@@ -1,6 +1,6 @@
 import { Response, Request ,NextFunction } from "express";
 
-import { Advertisement } from "../models";
+import { Advertisement, Statistic } from "../models";
 import { ApiError } from "../errors";
 import { tokenService } from "../services";
 import { EAccountTypes } from "../enums";
@@ -9,7 +9,7 @@ class AdvertisementMiddleware {
     public async isAdvertisementExists(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const { adId } = req.params;
-            const advertisement = await Advertisement.findById(adId);
+            const advertisement = await Advertisement.findById(adId).populate("owner", "_id email phone_number");
 
             if (!advertisement) {
                 throw new ApiError("No such an advertisement",401);
@@ -56,6 +56,23 @@ class AdvertisementMiddleware {
             } catch (e) {
                 next(e);
             }
+        }
+    }
+
+    public async isStatisticExists(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { statId } = req.params;
+            const statistic = await Statistic.findById(statId);
+
+            if (!statistic) {
+                throw new ApiError("No such a statistic", 401);
+            }
+
+            req.res.locals.statistic = statistic;
+
+            next();
+        } catch (e) {
+            next(e);
         }
     }
 }

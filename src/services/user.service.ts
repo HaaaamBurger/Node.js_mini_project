@@ -12,14 +12,6 @@ class UserService {
         }
     };
 
-    public async getUserById(id: string): Promise<IUser> {
-        try {
-            return await User.findById(id);
-        } catch (e) {
-            throw new ApiError(e.message, e.status);
-        }
-    };
-
     public async deleteUserById(id: string): Promise<void> {
         try {
             await User.findByIdAndDelete(id);

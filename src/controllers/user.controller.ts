@@ -14,11 +14,9 @@ class UserController {
         }
     };
 
-    public async getUserById(req: Request, res: Response, next: NextFunction): Promise<Response<IUser>> {
+    public getUserById(req: Request, res: Response, next: NextFunction): Response<IUser> {
         try {
-            const { id } = req.params;
-
-            const user = await userService.getUserById(id);
+            const user = req.res.locals.user;
 
             return res.status(200).json(user);
         } catch (e) {

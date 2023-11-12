@@ -13,15 +13,6 @@ class AdvertisementService {
         }
     }
 
-    public async getAdvertisementById(id: string): Promise<IAdvertisement> {
-        try {
-            await advertisementRepository.viewsIncrement(id);
-            return await Advertisement.findById(id).populate("owner", "_id email phone_number");
-        } catch (e) {
-            throw new ApiError(e.message, e.status);
-        }
-    };
-
     public async createAdvertisement(advertisement: IAdvertisement, tokenPayload: ITokenPayload): Promise<void> {
         try {
             const convertedCurrencies = await advertisementRepository.convertCurrency(
@@ -79,7 +70,7 @@ class AdvertisementService {
 
     public async advertisementStats(): Promise<IStatistic[]> {
         try {
-            return await Statistic.find().populate("advertisement");
+            return await Statistic.find().populate("advertisement", "_id producer car_model city year owner");
         } catch (e) {
             throw new ApiError(e.message, e.status);
         }
