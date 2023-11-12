@@ -62,7 +62,7 @@ class AdvertisementMiddleware {
     public async isStatisticExists(req: Request, res: Response, next: NextFunction) {
         try {
             const { statId } = req.params;
-            const statistic = await Statistic.findById(statId);
+            const statistic = await Statistic.findById(statId).populate("advertisement");
 
             if (!statistic) {
                 throw new ApiError("No such a statistic", 401);

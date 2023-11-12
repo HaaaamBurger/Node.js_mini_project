@@ -46,6 +46,16 @@ router.put(
     userController.changeType,
 )
 
+router.delete(
+    "/delete-byId/:id",
+    authMiddleware.checkAccessToken,
+    userMiddleware.isUserBlocked,
+    permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN]),
+    generalMiddleware.isIdValid("id"),
+    userMiddleware.isUserExists,
+    userController.deleteUserById
+    );
+
 router.put(
     "/change-role/:id",
     authMiddleware.checkAccessToken,
