@@ -18,6 +18,7 @@ export interface IAdvertisement extends Document{
     car_model: string;
     year: number;
     city: string;
+    car_photo: string;
     price: number | object;
     currency: ECurrency;
     description?: string;
