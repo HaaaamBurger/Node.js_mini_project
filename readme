@@ -1,0 +1,15 @@
+admin_account:
+ "email": "admin_account@gmail.com",
+ "password": "admin_F0@"
+
+manager_account:
+ "email": "manager_account@gmail.com",
+ "password": "manager_F0@"
+
+buyer_account:
+ "email": "buyer_account@gmail.com",
+ "password": "buyer_F0@",
+
+seller_account:
+ "email": "seller_account@gmail.com",
+ "password": "seller_F0@",
