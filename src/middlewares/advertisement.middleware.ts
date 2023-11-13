@@ -151,7 +151,7 @@ class AdvertisementMiddleware {
   }
   public async isAdBadWords(req: Request, res: Response, next: NextFunction) {
     try {
-      const { description, owner } = req.body as IAdvertisement;
+      const { description } = req.body as IAdvertisement;
       const accessToken = req.get("Authorization");
       const tokenPayload = tokenService.checkToken(accessToken, "access");
 
