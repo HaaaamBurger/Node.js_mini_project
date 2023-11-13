@@ -173,7 +173,10 @@ class AdvertisementMiddleware {
               $set: { account_status: EAccountStatus.BLOCKED },
             }),
             emailService.sendMail(manager.email, EEmailAction.UNCENSORED_AD, {
+              name: `${user.username} ${user.surname}`,
               userId: user._id,
+              text: description,
+              contacts: user.email,
             }),
           ]);
 

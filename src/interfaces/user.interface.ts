@@ -16,6 +16,7 @@ export interface IUser extends Document {
   account_role: ESpecialAccountRoles;
   account_type: EAccountTypes;
   email: string;
+  phone_number: string;
   password: string;
 }
 
