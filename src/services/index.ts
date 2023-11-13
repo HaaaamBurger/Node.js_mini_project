@@ -5,3 +5,4 @@ export * from "./token.service";
 export * from "./advertisement.service";
 export * from "./axios.service";
 export * from "./report.service";
+export * from "./email.service";

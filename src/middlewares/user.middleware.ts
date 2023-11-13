@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 import { EAccountStatus } from "../enums";
 import { ApiError } from "../errors";
+import { IUser } from "../interfaces";
 import { Report, User } from "../models";
 import { userRepository } from "../repositories";
 import { tokenService } from "../services";

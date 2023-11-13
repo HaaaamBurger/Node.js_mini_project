@@ -1,11 +1,17 @@
 import Filter from "bad-words";
 import { NextFunction, Request, Response } from "express";
 
-import { EAccountStatus, EAccountTypes } from "../enums";
+import {
+  EAccountStatus,
+  EAccountTypes,
+  EEmailAction,
+  ESpecialAccountRoles,
+} from "../enums";
 import { ApiError } from "../errors";
 import { IAdvertisement, IUser } from "../interfaces";
 import { Advertisement, Statistic, User } from "../models";
-import { tokenService } from "../services";
+import { userRepository } from "../repositories";
+import { emailService, tokenService } from "../services";
 
 const filter = new Filter();
 
@@ -159,9 +165,15 @@ class AdvertisementMiddleware {
       }
       if (filter.isProfane(description)) {
         if (this.tries === 0) {
-          await User.findByIdAndUpdate(tokenPayload._userId, {
-            $set: { account_status: EAccountStatus.BLOCKED },
+          const manager = await userRepository.getOneByParams({
+            account_role: ESpecialAccountRoles.MANAGER,
           });
+          await Promise.all([
+            User.findByIdAndUpdate(tokenPayload._userId, {
+              $set: { account_status: EAccountStatus.BLOCKED },
+            }),
+            emailService.sendMail(manager.email, EEmailAction.UNCENSORED_AD),
+          ]);
 
           this.tries = 3;
 
