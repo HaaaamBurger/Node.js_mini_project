@@ -1,134 +1,184 @@
-import { Response, Request ,NextFunction } from "express";
-import Filter from "bad-words"
+import Filter from "bad-words";
+import { NextFunction, Request, Response } from "express";
 
-import { Advertisement, Statistic } from "../models";
+import { EAccountStatus, EAccountTypes } from "../enums";
 import { ApiError } from "../errors";
+import { IAdvertisement, IUser } from "../interfaces";
+import { Advertisement, Statistic, User } from "../models";
 import { tokenService } from "../services";
-import { EAccountTypes } from "../enums";
-import { IAdvertisement } from "../interfaces";
 
 const filter = new Filter();
 
 class AdvertisementMiddleware {
-    public async isAdvertisementExists(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            const { adId } = req.params;
-            const advertisement = await Advertisement.findById(adId).populate("owner", "_id email phone_number");
+  public async isAdvertisementExists(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { adId } = req.params;
+      const advertisement = await Advertisement.findById(adId).populate(
+        "owner",
+        "_id email phone_number",
+      );
 
-            if (!advertisement) {
-                throw new ApiError("No such an advertisement",401);
-            }
+      if (!advertisement) {
+        throw new ApiError("No such an advertisement", 401);
+      }
 
-            req.res.locals.advertisement = advertisement;
+      req.res.locals.advertisement = advertisement;
 
-            next();
-        } catch (e) {
-            next(e);
+      next();
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public isLimitReached(limit = 1) {
+    return async (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ): Promise<void> => {
+      try {
+        const accessToken = req.get("Authorization");
+        const { account_type, _userId } = tokenService.checkToken(
+          accessToken,
+          "access",
+        );
+
+        if (account_type === EAccountTypes.BASIC) {
+          const ads_count = await Advertisement.countDocuments({
+            owner: _userId,
+          });
+          if (ads_count >= limit) {
+            throw new ApiError(
+              `Buy ${EAccountTypes.PREMIUM} account to create more ads. For ${EAccountTypes.BASIC} limit is ${limit}`,
+              403,
+            );
+          }
         }
-    }
+        next();
+      } catch (e) {
+        next(e);
+      }
+    };
+  }
 
-    public isLimitReached(limit = 1) {
-        return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-            try {
-               const accessToken = req.get("Authorization");
-               const { account_type, _userId } = tokenService.checkToken(accessToken, "access");
+  public isAccountTypeAllowed(isAllowedToManage: EAccountTypes[]) {
+    return (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const accessToken = req.get("Authorization");
+        const { account_type } = tokenService.checkToken(accessToken, "access");
 
-               if (account_type === EAccountTypes.BASIC) {
-                   const ads_count = await Advertisement.countDocuments({owner: _userId});
-                   if (ads_count >= limit) {
-                       throw new ApiError(`Buy ${EAccountTypes.PREMIUM} account to create more ads. For ${EAccountTypes.BASIC} limit is ${limit}`, 403)
-                   }
-               }
-               next();
-            } catch (e) {
-                next(e);
-            }
+        if (!isAllowedToManage.includes(account_type)) {
+          throw new ApiError("Permitted", 403);
         }
+
+        next();
+      } catch (e) {
+        next(e);
+      }
+    };
+  }
+
+  public async isStatisticExists(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { statId } = req.params;
+      const statistic =
+        await Statistic.findById(statId).populate("advertisement");
+
+      if (!statistic) {
+        throw new ApiError("No such a statistic", 401);
+      }
+
+      req.res.locals.statistic = statistic;
+
+      next();
+    } catch (e) {
+      next(e);
     }
+  }
 
-    public isAccountTypeAllowed(isAllowedToManage: EAccountTypes[]) {
-        return (req: Request, res: Response, next: NextFunction) => {
-            try {
-                const accessToken = req.get("Authorization");
-                const { account_type } = tokenService.checkToken(accessToken, "access");
+  public isAllowToManageAdvertisement(
+    param: string,
+    allowedToManage: string[],
+  ) {
+    return async (
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ): Promise<void> => {
+      try {
+        const parameter = req.params[param];
 
-                if (!isAllowedToManage.includes(account_type)) {
-                    throw new ApiError("Permitted", 403);
-                }
+        const accessToken = req.get("Authorization");
+        const tokenPayload = tokenService.checkToken(accessToken, "access");
 
-                next();
-            } catch (e) {
-                next(e);
-            }
+        const { owner } = (await Advertisement.findById(
+          parameter,
+        )) as IAdvertisement;
+
+        console.log(tokenPayload._userId, owner.toHexString());
+
+        if (!allowedToManage.includes(tokenPayload.account_role)) {
+          if (tokenPayload._userId.toString() !== owner.toHexString()) {
+            throw new ApiError("You cannot manage this subject", 400);
+          }
         }
-    }
 
-    public async isStatisticExists(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { statId } = req.params;
-            const statistic = await Statistic.findById(statId).populate("advertisement");
+        next();
+      } catch (e) {
+        next(e);
+      }
+    };
+  }
 
-            if (!statistic) {
-                throw new ApiError("No such a statistic", 401);
-            }
+  private tries: number;
+  constructor() {
+    this.tries = 3;
+    this.isAdBadWords = this.isAdBadWords.bind(this);
+  }
+  public async isAdBadWords(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { description } = req.body as IAdvertisement;
+      const accessToken = req.get("Authorization");
+      const tokenPayload = tokenService.checkToken(accessToken, "access");
 
-            req.res.locals.statistic = statistic;
+      const user = (await User.findById(tokenPayload._userId)) as IUser;
 
-            next();
-        } catch (e) {
-            next(e);
+      if (user.account_status === EAccountStatus.BLOCKED) {
+        throw new ApiError(
+          "Account blocked, send report to administration",
+          400,
+        );
+      }
+      if (filter.isProfane(description)) {
+        if (this.tries === 0) {
+          await User.findByIdAndUpdate(tokenPayload._userId, {
+            $set: { account_status: EAccountStatus.BLOCKED },
+          });
+
+          this.tries = 3;
+
+          throw new ApiError("Description has uncensored words", 401);
         }
+        this.tries--;
+        throw new ApiError(
+          `Description has uncensored words, try ${this.tries} more`,
+          401,
+        );
+      }
+
+      next();
+    } catch (e) {
+      next(e);
     }
-
-    public isAllowToManageAdvertisement(param: string, allowedToManage: string[]) {
-        return async (req: Request, res: Response, next: NextFunction) => {
-            try {
-                const parameter = req.params[param];
-
-                const accessToken = req.get("Authorization");
-                const tokenPayload = tokenService.checkToken(accessToken, "access");
-
-                let { owner } = await Advertisement.findById(parameter) as IAdvertisement;
-
-                console.log(tokenPayload._userId, owner.toHexString())
-
-                if (!allowedToManage.includes(tokenPayload.account_role)) {
-                    if (tokenPayload._userId.toString() !== owner.toHexString()) {
-                        throw new ApiError("You cannot manage this subject", 400);
-                    }
-                }
-
-                next();
-            } catch (e) {
-                next(e);
-            }
-        }
-    }
-
-    private tries: number;
-    constructor() {
-        this.tries = 3;
-        this.isAdBadWords = this.isAdBadWords.bind(this);
-    }
-    public isAdBadWords(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { description } = req.body as IAdvertisement;
-
-
-            if (filter.isProfane(description)) {
-                if (this.tries === 0) {
-                    throw new ApiError("Description has uncensored words", 401);
-                }
-                this.tries--;
-                throw new ApiError(`Description has uncensored words, try ${this.tries} more`, 401);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    }
-
+  }
 }
 
 export const advertisementMiddleware = new AdvertisementMiddleware();
