@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from "express";
-import { ObjectSchema } from "joi";
 import mongoose from "mongoose";
 
+import { Request, Response, NextFunction } from "express";
+import { ObjectSchema } from "joi";
+
 import { ApiError } from "../errors";
-import { tokenService } from "../services";
 
 class GeneralMiddleware {
     public isBodyValid(validator: ObjectSchema) {

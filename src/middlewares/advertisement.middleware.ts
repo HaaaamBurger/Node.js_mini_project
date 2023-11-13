@@ -1,11 +1,13 @@
 import { Response, Request ,NextFunction } from "express";
-import { Types } from "mongoose";
+import Filter from "bad-words"
 
 import { Advertisement, Statistic } from "../models";
 import { ApiError } from "../errors";
 import { tokenService } from "../services";
 import { EAccountTypes } from "../enums";
 import { IAdvertisement } from "../interfaces";
+
+const filter = new Filter();
 
 class AdvertisementMiddleware {
     public async isAdvertisementExists(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -100,6 +102,21 @@ class AdvertisementMiddleware {
             } catch (e) {
                 next(e);
             }
+        }
+    }
+
+
+    public isAdBadWords(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { description } = req.body as IAdvertisement;
+
+            if (filter.isProfane(description)) {
+                throw new ApiError("Description has uncensored words", 401);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
         }
     }
 

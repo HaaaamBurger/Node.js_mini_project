@@ -56,6 +56,7 @@ router.post(
     userMiddleware.isUserBlocked,
     permissionsMiddleware.isRoleAllowed([ESpecialAccountRoles.ADMIN, ESpecialAccountRoles.MANAGER, ESpecialAccountRoles.SELLER]),
     generalMiddleware.isBodyValid(AdvertisementValidator.createAdvertisement),
+    advertisementMiddleware.isAdBadWords,
     advertisementMiddleware.isLimitReached(),
     advertisementController.createAdvertisement,
 );
