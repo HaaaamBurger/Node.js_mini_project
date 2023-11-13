@@ -129,8 +129,6 @@ class AdvertisementMiddleware {
           parameter,
         )) as IAdvertisement;
 
-        console.log(tokenPayload._userId, owner.toHexString());
-
         if (!allowedToManage.includes(tokenPayload.account_role)) {
           if (tokenPayload._userId.toString() !== owner.toHexString()) {
             throw new ApiError("You cannot manage this subject", 400);
