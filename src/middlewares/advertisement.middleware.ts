@@ -105,13 +105,22 @@ class AdvertisementMiddleware {
         }
     }
 
-
+    private tries: number;
+    constructor() {
+        this.tries = 3;
+        this.isAdBadWords = this.isAdBadWords.bind(this);
+    }
     public isAdBadWords(req: Request, res: Response, next: NextFunction) {
         try {
             const { description } = req.body as IAdvertisement;
 
+
             if (filter.isProfane(description)) {
-                throw new ApiError("Description has uncensored words", 401);
+                if (this.tries === 0) {
+                    throw new ApiError("Description has uncensored words", 401);
+                }
+                this.tries--;
+                throw new ApiError(`Description has uncensored words, try ${this.tries} more`, 401);
             }
 
             next();
