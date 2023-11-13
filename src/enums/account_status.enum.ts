@@ -1,4 +1,4 @@
 export enum EAccountStatus {
-    ACTIVE = "active",
-    BLOCKED = "blocked"
+  ACTIVE = "active",
+  BLOCKED = "blocked",
 }

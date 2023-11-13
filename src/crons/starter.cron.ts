@@ -1,5 +1,5 @@
-import { updateCurrency } from "./currency-update.cron"
+import { updateCurrency } from "./currency-update.cron";
 
 export const cronRunner = () => {
-    updateCurrency.start();
-}
+  updateCurrency.start();
+};
