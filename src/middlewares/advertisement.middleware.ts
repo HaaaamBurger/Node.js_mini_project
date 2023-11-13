@@ -151,7 +151,7 @@ class AdvertisementMiddleware {
   }
   public async isAdBadWords(req: Request, res: Response, next: NextFunction) {
     try {
-      const { description } = req.body as IAdvertisement;
+      const { description, owner } = req.body as IAdvertisement;
       const accessToken = req.get("Authorization");
       const tokenPayload = tokenService.checkToken(accessToken, "access");
 
@@ -172,7 +172,9 @@ class AdvertisementMiddleware {
             User.findByIdAndUpdate(tokenPayload._userId, {
               $set: { account_status: EAccountStatus.BLOCKED },
             }),
-            emailService.sendMail(manager.email, EEmailAction.UNCENSORED_AD),
+            emailService.sendMail(manager.email, EEmailAction.UNCENSORED_AD, {
+              userId: user._id,
+            }),
           ]);
 
           this.tries = 3;
